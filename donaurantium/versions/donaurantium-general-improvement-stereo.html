@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ============================================================================
+  DONAURANTIUM — GENERAL WELLNESS PROTOCOL (STEREO VARIANT)
+  ============================================================================
+  Project:   Donaurantium — Open-Source Acoustic Epigenetic Programming System
+  Condition: General Wellness — Metabolic / Cardiovascular / Inflammatory / Immune
+  Variant:   Stereo — isochronic tones, works on any speakers or headphones
+  Authors:   The Donaurantium Project
+  Version:   1.0.0
+  License:   MIT
+
+  HEADPHONES vs STEREO VARIANT — KEY DIFFERENCE
+  ───────────────────────────────────────────────
+  Headphones variant: binaural beats (requires channel isolation).
+  This stereo variant: ISOCHRONIC TONES — carrier × cosine gate.
+    carrier(t) = amplitude * sin(2π * carrier_hz * t) * gate(t)
+    gate(t) = 0.5 * (1 + cos(2π * target_hz * t))
+  Cortical CAEP entrainment rather than brainstem SOC entrainment.
+  Physical mechanotransduction layer (30 Hz, 40 Hz, 90 Hz) is unchanged —
+  these are monaural and work identically on any playback device.
+  The 30 Hz / 40 Hz / 90 Hz physical layers are the primary therapeutic
+  channels for this protocol — isochronic vs binaural is secondary.
+
+  GENOMIC TARGETS (AlphaGenome RNA-seq | CD4+ T cell CL:0000624 | hg38)
+  ───────────────────────────────────────────────────────────────────────
+  Gene    rsID        ref       alt     Δ%      Baseline    Role
+  PPARG   rs1801282   —         —       0.0%  294.000       PPARγ — dominant; insulin sensitivity / immune tolerance
+  TNFA    rs1800629   —         —      +0.6%  158.000       TNF-α — pro-inflammatory ▼ 40 Hz primary target
+  KCNJ11  rs5219      —         —       0.0%  143.000       K-ATP channel — pancreatic insulin release gate
+  NOS3    rs1799983   —         —       0.0%   21.500       eNOS — PIEZO1 → NO → vasodilation ▲ 30 Hz target
+  IL10    rs1800896   —         —       0.0%   12.312       IL-10 — anti-inflammatory ▲ 90 Hz primary target
+  FTO     rs9939609   —         —       0.0%    9.750       FTO — energy balance / m6A RNA methylation
+  APOE    rs429358    —         —       0.0%    5.594       ApoE — lipoprotein clearance (GENUS)
+  CTLA4   rs231775    —         —       0.0%    5.938       CTLA-4 — Treg immune checkpoint (theta/vagal)
+  TCF7L2  rs7903146   —         —      +0.5%    6.469       TCF7L2 — beta-cell insulin secretion T2D risk
+  ADRB3   rs4994      —         —       0.0%    3.969       β3-AR — BAT thermogenesis / sympathetic
+
+  CORE FINDING: TNFA (158.0) vs IL10 (12.312) = 12.8:1 pro:anti-inflammatory ratio.
+  Primary: suppress TNFA via 40 Hz + upregulate IL10 via 90 Hz.
+  Full analysis: GENERAL_HEALTH_RESEARCH.md
+
+  FREQUENCY MAP (all waveforms: SINE ONLY — carrier and gate)
+  ──────────────────────────────────────────────────────────────────────────
+  Layer                Hz (carrier)  Gate Hz  Channel  Amp     Target genes
+  ──────────────────────────────────────────────────────────────────────────
+  Alpha isochronic     220 Hz        10 Hz    both     0.8     CTLA4/ADRB3 — entry/return
+  Theta isochronic     220 Hz         6 Hz    both     1.0     CTLA4▲ vagal→Treg; cortisol↓→insulin
+  Gamma isochronic     300 Hz        40 Hz    both     0.8     APOE lipoprotein GENUS; TNFA neural arm
+  GENUS gamma physical  40 Hz         —       both     0.60*   TNFA▼, PPARG▲, KCNJ11, NF-κB suppression
+  Metabolic physical    30 Hz         —       both     0.80*   TCF7L2, KCNJ11, ADRB3, NOS3/PIEZO1
+  IL10 physical         90 Hz         —       both     0.70*   IL10▲ direct upregulation (PMC11057401)
+  Pink noise             —            —       both     0.25    Stochastic resonance substrate
+  * Sub-60 Hz boosted 1.5–2× for speaker/headphone frequency rolloff
+
+  SESSION PHASES (60-minute / 30-minute)
+  ──────────────────────────────────────────────────────────────────────────
+  Phase                60-min           30-min    Gate Hz  Color    Julia c
+  Alpha Entry          0:00–10:00       0:00–5:00   10     Amber    -0.75+0.11i
+  Metabolic+Anti-Inflam 10:00–30:00    5:00–15:00   40     Violet   -0.12+0.74i
+  Immune Recalibration 30:00–50:00    15:00–25:00    6     Teal     -0.54+0.54i
+  Return               50:00–60:00    25:00–30:00   10     Amber    -0.75+0.11i
+
+  Fade-in: 90 seconds. Phase crossfade: 30-second cubic-eased transitions.
+  Visual pulse tracks gate Hz — 40 Hz visual GENUS arm during metabolic phase.
+
+  REFERENCES
+  ───────────
+  PMC5127677 · PMC11057401 · PMC11143234 · PMC11952037 · PMC9714105
+  ScienceDirect 2024 · PMC11249855 · PMC8892598
+  Picton 2003 (isochronic CAEP) · Ross 2000 (AMFR)
+  Full citations: GENERAL_HEALTH_RESEARCH.md
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donaurantium — General Wellness Protocol (Stereo)</title>
+  <meta name="description"
+        content="Acoustic epigenetic session targeting TNFA▼ IL10▲ NOS3▲ TCF7L2 PPARG CTLA4
+                 via isochronic tones and physical mechanotransduction. Works on any speakers.">
+  <style>
+    :root {
+      --bg: #050510;
+      --fg: #e8ecff;
+      --muted: #aeb7d8;
+      --phase-color: #00E5FF;
+      --panel: rgba(5, 8, 22, 0.78);
+      --line: rgba(232, 236, 255, 0.16);
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      overflow: hidden;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at 50% 0%,   color-mix(in srgb, var(--phase-color) 11%, transparent), transparent 52%),
+        radial-gradient(ellipse at 18% 85%,  color-mix(in srgb, var(--phase-color)  6%, transparent), transparent 38%),
+        radial-gradient(ellipse at 82% 60%,  rgba(100, 30, 220, 0.07),                                transparent 34%),
+        #050510;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid color-mix(in srgb, var(--phase-color) 38%, rgba(255,255,255,0.12));
+      background: rgba(5, 8, 22, 0.58);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      color: var(--fg);
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 8px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: border-color 200ms ease, background 200ms ease, transform 160ms ease, box-shadow 200ms ease;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    button:hover,
+    button:focus-visible {
+      border-color: var(--phase-color);
+      background: color-mix(in srgb, var(--phase-color) 14%, rgba(5, 8, 22, 0.72));
+      box-shadow:
+        0 0 22px color-mix(in srgb, var(--phase-color) 24%, transparent),
+        0 0  6px color-mix(in srgb, var(--phase-color) 42%, transparent),
+        inset 0 1px 0 rgba(255,255,255,0.10);
+      outline: none;
+    }
+
+    button:active { transform: translateY(1px); }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #screen-landing,
+    #screen-end {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        linear-gradient(158deg, rgba(5, 5, 16, 0.66), rgba(5, 5, 16, 0.97)),
+        radial-gradient(ellipse at 50% 28%, color-mix(in srgb, var(--phase-color) 18%, transparent), transparent 46%),
+        radial-gradient(ellipse at 88% 78%, rgba(100, 30, 220, 0.08), transparent 34%),
+        var(--bg);
+    }
+
+    .landing-panel,
+    .end-panel {
+      width: min(720px, calc(100vw - 32px));
+      display: grid;
+      gap: 20px;
+      padding: clamp(22px, 4vw, 42px);
+      border: 1px solid color-mix(in srgb, var(--phase-color) 20%, rgba(255,255,255,0.07));
+      border-radius: 14px;
+      background: rgba(5, 8, 22, 0.50);
+      backdrop-filter: blur(32px) saturate(170%);
+      -webkit-backdrop-filter: blur(32px) saturate(170%);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--phase-color) 10%, transparent),
+        0 0 90px color-mix(in srgb, var(--phase-color)  7%, transparent),
+        0 8px 64px rgba(0, 0, 0, 0.58),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.02);
+    }
+
+    .kicker {
+      margin: 0;
+      color: var(--phase-color);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      text-shadow: 0 0 18px color-mix(in srgb, var(--phase-color) 70%, transparent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      text-shadow:
+        0 0 40px color-mix(in srgb, var(--phase-color) 30%, transparent),
+        0 0 80px color-mix(in srgb, var(--phase-color) 12%, transparent);
+    }
+
+    .note,
+    .safety,
+    .inline-meta {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: clamp(0.86rem, 1.8vw, 1rem);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.025);
+      backdrop-filter: blur(8px);
+    }
+
+    .segmented label {
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .segmented.compact label {
+      min-height: 38px;
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+    .segmented input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .segmented label:has(input:checked) {
+      background: color-mix(in srgb, var(--phase-color) 16%, rgba(255, 255, 255, 0.04));
+      color: var(--fg);
+      box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--phase-color) 64%, transparent),
+        0 0 16px color-mix(in srgb, var(--phase-color) 13%, transparent);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 44px;
+      padding: 0 2px;
+      color: var(--muted);
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(22px);
+      background: var(--phase-color);
+      box-shadow: 0 0 8px var(--phase-color), 0 0 16px color-mix(in srgb, var(--phase-color) 45%, transparent);
+    }
+
+    #btn-start {
+      min-height: 54px;
+      border-color: var(--phase-color);
+      background: color-mix(in srgb, var(--phase-color) 14%, rgba(5, 8, 22, 0.88));
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      box-shadow:
+        0 0 28px color-mix(in srgb, var(--phase-color) 24%, transparent),
+        0 0 56px color-mix(in srgb, var(--phase-color) 10%, transparent),
+        inset 0 1px 0 rgba(255,255,255,0.11),
+        inset 0 -1px 0 rgba(0,0,0,0.20);
+    }
+
+    #screen-session {
+      display: none;
+      background: var(--bg);
+    }
+
+    #fractal-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: var(--bg);
+    }
+
+    body.audio-only #fractal-canvas,
+    body.no-webgl #fractal-canvas {
+      display: none;
+    }
+
+    .fallback-visual {
+      position: absolute;
+      inset: 0;
+      display: none;
+      background:
+        radial-gradient(ellipse at 50% 46%, color-mix(in srgb, var(--phase-color) 28%, transparent), transparent 38%),
+        radial-gradient(ellipse at 20% 80%, color-mix(in srgb, var(--phase-color) 10%, transparent), transparent 30%),
+        linear-gradient(180deg, rgba(5, 5, 16, 0.72), rgba(5, 5, 16, 1));
+      animation: fallbackPulse 7s ease-in-out infinite;
+    }
+
+    body.audio-only .fallback-visual,
+    body.no-webgl .fallback-visual {
+      display: block;
+    }
+
+    @keyframes fallbackPulse {
+      0%, 100% { opacity: 0.72; }
+      50% { opacity: 1; }
+    }
+
+    #progress-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 3;
+    }
+
+    #progress-fill {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      transform-origin: left center;
+      background: linear-gradient(90deg,
+        color-mix(in srgb, var(--phase-color) 75%, #ffffff 18%),
+        var(--phase-color) 70%,
+        color-mix(in srgb, var(--phase-color) 90%, #ffffff 8%) 100%
+      );
+      box-shadow:
+        0 0  8px var(--phase-color),
+        0 0 22px color-mix(in srgb, var(--phase-color) 55%, transparent),
+        0 0  2px rgba(255,255,255,0.85);
+    }
+
+    .hud {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .hud-pill {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      border: 1px solid color-mix(in srgb, var(--phase-color) 24%, rgba(255,255,255,0.10));
+      border-radius: 9px;
+      background: rgba(5, 8, 22, 0.42);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      color: var(--fg);
+      box-shadow:
+        0 0 18px color-mix(in srgb, var(--phase-color) 10%, transparent),
+        inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    #phase-label {
+      color: var(--phase-color);
+      font-weight: 700;
+      text-shadow: 0 0 14px color-mix(in srgb, var(--phase-color) 65%, transparent);
+    }
+
+    #time-left {
+      color: var(--muted);
+    }
+
+    #btn-pause {
+      pointer-events: auto;
+      min-height: 38px;
+      padding: 0 14px;
+      background: rgba(5, 8, 22, 0.40);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    #pause-overlay,
+    #seizure-warning {
+      position: fixed;
+      inset: 0;
+      z-index: 8;
+      display: none;
+      place-items: center;
+      padding: 24px;
+      background: rgba(5, 5, 16, 0.68);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+    }
+
+    #pause-overlay.visible,
+    #seizure-warning.visible {
+      display: grid;
+    }
+
+    .modal {
+      width: min(620px, calc(100vw - 32px));
+      padding: 26px;
+      border: 1px solid color-mix(in srgb, var(--phase-color) 18%, rgba(255,255,255,0.07));
+      border-radius: 13px;
+      background: rgba(5, 8, 22, 0.76);
+      backdrop-filter: blur(26px) saturate(150%);
+      -webkit-backdrop-filter: blur(26px) saturate(150%);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--phase-color) 8%, transparent),
+        0 0 52px rgba(0, 0, 0, 0.52),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .modal h2,
+    .end-panel h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      letter-spacing: 0;
+    }
+
+    .modal p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .modal-actions,
+    .end-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .intensity-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 2px;
+      color: var(--muted);
+      font-size: clamp(0.86rem, 1.8vw, 1rem);
+    }
+
+    .intensity-range {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .intensity-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--phase-color);
+      cursor: pointer;
+      box-shadow:
+        0 0  8px var(--phase-color),
+        0 0 18px color-mix(in srgb, var(--phase-color) 50%, transparent);
+    }
+
+    .intensity-range::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--phase-color);
+      cursor: pointer;
+      border: none;
+      box-shadow:
+        0 0  8px var(--phase-color),
+        0 0 18px color-mix(in srgb, var(--phase-color) 50%, transparent);
+    }
+
+    #breath-cue {
+      font-size: 0.78rem;
+      opacity: 0;
+      transition: opacity 800ms ease;
+    }
+
+    #breath-cue.visible {
+      opacity: 1;
+    }
+
+    @media (max-width: 560px) {
+      #screen-landing,
+      #screen-end,
+      #seizure-warning,
+      #pause-overlay {
+        padding: 16px;
+      }
+
+      .landing-panel,
+      .end-panel,
+      .modal {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .hud {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        align-items: flex-start;
+      }
+
+      .hud-pill {
+        max-width: calc(100vw - 100px);
+      }
+
+      #breath-cue {
+        display: none;
+      }
+
+      #phase-label {
+        overflow-wrap: anywhere;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="screen-landing" class="screen">
+    <main class="landing-panel" aria-labelledby="protocol-title">
+      <p class="kicker">Donaurantium</p>
+      <h1 id="protocol-title"></h1>
+      <p id="variant-note" class="note"></p>
+      <p id="mode-label" class="inline-meta"></p>
+
+      <div class="controls">
+        <div class="segmented" role="radiogroup" aria-label="Session duration">
+          <label><input type="radio" name="duration" value="30">30 minutes</label>
+          <label><input type="radio" name="duration" value="60" checked>60 minutes</label>
+        </div>
+
+        <label class="toggle-row" for="audio-only-toggle">
+          <span>Audio only</span>
+          <span class="switch"><input id="audio-only-toggle" type="checkbox"><span class="slider"></span></span>
+        </label>
+
+        <p class="inline-meta">Physical output layer</p>
+        <div class="segmented compact" role="radiogroup" aria-label="Physical output profile">
+          <label><input type="radio" name="physical-profile" value="standard" checked>Standard</label>
+          <label><input type="radio" name="physical-profile" value="coupled">Woofer / tactile</label>
+        </div>
+
+        <div class="intensity-row">
+          <span>Intensity</span>
+          <input id="intensity-slider" type="range" class="intensity-range"
+                 min="50" max="180" value="100" step="5"
+                 aria-label="Therapeutic intensity 0.5× to 1.8×">
+          <span id="intensity-val" style="min-width:3.5ch;text-align:right">1.0×</span>
+        </div>
+
+        <p id="display-status" class="inline-meta">Display check pending.</p>
+      </div>
+
+      <button id="btn-start" type="button">BEGIN SESSION</button>
+      <p class="safety">Research protocol only; not a medical treatment, cure, or substitute for clinical care. Use comfortable volume only. Stop immediately if discomfort, dizziness, pain, or visual sensitivity occurs.</p>
+    </main>
+  </div>
+
+  <div id="screen-session" class="screen" aria-live="polite">
+    <div class="fallback-visual" aria-hidden="true"></div>
+    <canvas id="fractal-canvas"></canvas>
+    <div class="hud">
+      <div class="hud-pill"><span id="phase-label">Ready</span><span id="time-left">00:00</span></div>
+      <div id="breath-cue" class="hud-pill" aria-live="polite"></div>
+      <button id="btn-pause" type="button">Pause</button>
+    </div>
+    <div id="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+  </div>
+
+  <div id="screen-end" class="screen" style="display:none;">
+    <section class="end-panel">
+      <p class="kicker">Donaurantium</p>
+      <h2>Session complete.</h2>
+      <p id="end-summary" class="note"></p>
+      <div class="end-actions">
+        <button id="btn-restart" type="button">Restart</button>
+        <button id="btn-export-log" type="button">Export Log</button>
+        <button id="btn-close" type="button">Close</button>
+      </div>
+    </section>
+  </div>
+
+  <div id="pause-overlay" aria-hidden="true">
+    <div class="modal">
+      <h2>Paused</h2>
+      <p>Audio and visuals are suspended.</p>
+      <div class="modal-actions"><button id="btn-resume" type="button">Resume</button></div>
+    </div>
+  </div>
+
+  <div id="seizure-warning" role="dialog" aria-modal="true" aria-labelledby="warning-title">
+    <div class="modal">
+      <h2 id="warning-title">Visual Safety</h2>
+      <p>This session can include rhythmic visual luminance, including 40 Hz phases. Use audio-only mode if you have photosensitive epilepsy or visual sensitivity.</p>
+      <div class="modal-actions">
+        <button id="warn-audio" type="button">Audio Only</button>
+        <button id="warn-visual" type="button">Continue With Visuals</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    const VARIANT = {"protocolName": "General Wellness Protocol", "protocolKey": "general", "mode": "stereo", "deviceNote": "Isochronic speaker-safe variant for 30 Hz, 40 Hz, and 90 Hz physical layers plus cortical entrainment."};
+
+    // ====================================================================
+    // SECTION 1: CONSTANTS
+    // Source: GENERAL_HEALTH_RESEARCH.md
+    // ====================================================================
+
+    const SESSION = {
+      DURATION_FULL:        3600,
+      DURATION_SHORT:       1800,
+      FADE_IN_SECS:           90,
+      FADE_OUT_SECS:          60,
+      PHASE_CROSSFADE_SECS:   30,
+    };
+
+    // gate(t) = 0.5 * (1 + cos(2π * gateHz * t)) — cosine gate, smooth envelope.
+    const FREQ = {
+      ALPHA_ISO:  { carrier:220, gateHz:10, amp:0.8, targets:['CTLA4','ADRB3'],
+                    ref:'Alpha CAEP; parasympathetic prep; Treg/CTLA4 context establishment.' },
+      THETA_ISO:  { carrier:220, gateHz:6,  amp:1.0, targets:['CTLA4','PPARG','TCF7L2','NR3C1','FKBP5'],
+                    ref:'Theta CAEP; vagal → Treg → CTLA4; cortisol↓ → insulin sensitivity↑.' },
+      GAMMA_ISO:  { carrier:300, gateHz:40, amp:0.8, targets:['APOE','TNFA'],
+                    ref:'Gamma CAEP; GENUS neural arm; APOE lipoprotein clearance (PMC11952037).' },
+
+      // Physical mechanotransduction — identical to headphones variant.
+      GENUS_40HZ:     { hz:40, amp:0.60, targets:['TNFA','PPARG','KCNJ11','IL1B','IL6'],
+                        ref:'NF-κB → TNFA mRNA ↓. PPARG de-suppressed. Cross-panel IL1B/IL6.' },
+      METABOLIC_30HZ: { hz:30, amp:0.80, targets:['TCF7L2','KCNJ11','ADRB3','NOS3','FTO'],
+                        ref:'PMC11143234 WBV 30 Hz HbA1c −1.58%. PIEZO1 → NOS3. Sympathetic → ADRB3 BAT.' },
+      IL10_90HZ:      { hz:90, amp:0.70, targets:['IL10'],
+                        ref:'PMC11057401 — 90 Hz → IL-10 ↑ human macrophages. p38 MAPK/NF-κB.' },
+      PINK_NOISE:     { amp:0.25, algorithm:'voss-mccartney', targets:['all'] },
+    };
+
+    // gateHz field (isochronic) instead of beat field (binaural).
+    const PHASES_60 = [
+      { name:'alpha-entry',    s:   0, e: 600,  gateHz:10, physical:[30],         color:'#FFB300', pulseHz:10,  c:[-0.75, 0.11], label:'Alpha Entry'            },
+      { name:'metabolic',      s: 600, e:1800,  gateHz:40, physical:[30,40],      color:'#D500F9', pulseHz:40,  c:[-0.12, 0.74], label:'Metabolic + Anti-Inflam' },
+      { name:'immune-regen',   s:1800, e:3000,  gateHz:6,  physical:[30,40,90],   color:'#00BFA5', pulseHz:6,   c:[-0.54, 0.54], label:'Immune Recalibration'    },
+      { name:'return',         s:3000, e:3600,  gateHz:10, physical:[30],         color:'#FFB300', pulseHz:10,  c:[-0.75, 0.11], label:'Return'                  },
+    ];
+    const PHASES_30 = [
+      { name:'alpha-entry',    s:   0, e: 300,  gateHz:10, physical:[30],         color:'#FFB300', pulseHz:10,  c:[-0.75, 0.11], label:'Alpha Entry'            },
+      { name:'metabolic',      s: 300, e: 900,  gateHz:40, physical:[30,40],      color:'#D500F9', pulseHz:40,  c:[-0.12, 0.74], label:'Metabolic + Anti-Inflam' },
+      { name:'immune-regen',   s: 900, e:1500,  gateHz:6,  physical:[30,40,90],   color:'#00BFA5', pulseHz:6,   c:[-0.54, 0.54], label:'Immune Recalibration'    },
+      { name:'return',         s:1500, e:1800,  gateHz:10, physical:[30],         color:'#FFB300', pulseHz:10,  c:[-0.75, 0.11], label:'Return'                  },
+    ];
+
+    // ====================================================================
+    // SECTION 2: SINGLE-FILE RUNTIME
+    // Implements the docs-backed protocol constants above with no modules,
+    // imports, external assets, or generated dependencies.
+    // ====================================================================
+
+    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+    const state = {
+      audioOnly: false,
+      visualReady: false,
+      currentPhaseIndex: -1,
+      sessionStartMs: 0,
+      pausedAtMs: 0,
+      pausedTotalMs: 0,
+      fadeOutScheduled: false,
+      ending: false,
+      raf: 0,
+      physicalScale: 1,
+      intensityMultiplier: 1.0,
+      refreshHz: null,
+      audioStartTime: null,
+      sessionLog: null,
+    };
+
+    let audioCtx = null;
+    let masterGain = null;
+    let audioGraph = null;
+    let sessionDuration = SESSION.DURATION_FULL;
+
+    let gl = null;
+    let prog = null;
+    let uniforms = {};
+    let vertexBuffer = null;
+
+    const VERT = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+
+    const FRAG = `
+      precision highp float;
+      uniform vec2  u_res;
+      uniform vec2  u_c;
+      uniform float u_zoom;
+      uniform float u_t;
+      uniform float u_pulseHz;
+      uniform float u_depth;
+      uniform vec3  u_color;
+      const int MAX_ITER = 256;
+      const float PI = 3.141592653589793;
+
+      float julia(vec2 z) {
+        vec2 v = z;
+        for (int i = 0; i < MAX_ITER; i++) {
+          float r2 = dot(v, v);
+          if (r2 > 4.0) {
+            float smooth = float(i) + 1.0 - log(log(sqrt(r2))) / log(2.0);
+            return clamp(smooth / float(MAX_ITER), 0.0, 1.0);
+          }
+          v = vec2(v.x * v.x - v.y * v.y + u_c.x, 2.0 * v.x * v.y + u_c.y);
+        }
+        return 0.0;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_res;
+        vec2 p = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+
+        // Endless inward zoom loop using self-similar double-layer blend
+        float period = 6.0;
+        float progress = fract(u_t / period);
+        float zoom1 = pow(5.0, progress);
+        float zoom2 = pow(5.0, progress + 1.0);
+        
+        float activeZoom1 = u_zoom * zoom1;
+        float activeZoom2 = u_zoom * zoom2;
+        
+        vec2 p1 = p * (3.2 / max(activeZoom1, 0.001));
+        vec2 p2 = p * (3.2 / max(activeZoom2, 0.001));
+        
+        float esc1 = julia(p1);
+        float esc2 = julia(p2);
+        
+        float escaped = mix(esc2, esc1, progress);
+        float bands = pow(escaped, 0.45);
+        float core = smoothstep(0.0, 0.015, escaped);
+        float pulse = 1.0 + u_depth * sin(2.0 * PI * u_pulseHz * u_t);
+        float vignette = smoothstep(0.88, 0.24, distance(uv, vec2(0.5)));
+
+        // Flowing, neon-coded rainbow color generator
+        float colorCycle = escaped * 3.6 - u_t * 0.06;
+        vec3 rainbowColor = 0.5 + 0.5 * cos(2.0 * PI * (colorCycle + vec3(0.0, 0.33, 0.67)));
+        
+        // Blend rainbow spectrum with scientific protocol color to retain signature identity
+        vec3 baseColor = mix(rainbowColor, u_color, 0.12);
+
+        vec3 neon = baseColor * (0.15 + 1.85 * bands) * pulse * vignette * core;
+        vec3 darkFloor = vec3(0.003, 0.004, 0.012) * (1.0 - vignette * 0.35);
+        gl_FragColor = vec4(neon + darkFloor, 1.0);
+      }
+    `;
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function easeInOutCubic(value) {
+      const t = clamp(value, 0, 1);
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function hexToRgb(hex) {
+      const normalized = hex.replace('#', '').trim();
+      const value = Number.parseInt(normalized, 16);
+      return [((value >> 16) & 255) / 255, ((value >> 8) & 255) / 255, (value & 255) / 255];
+    }
+
+    function mix(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function mixVec(a, b, t) {
+      return [mix(a[0], b[0], t), mix(a[1], b[1], t), mix(a[2], b[2], t)];
+    }
+
+    function formatTime(seconds) {
+      const safe = Math.max(0, Math.ceil(seconds));
+      const mins = Math.floor(safe / 60);
+      const secs = safe % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    function phasesForDuration() {
+      return sessionDuration === SESSION.DURATION_FULL ? PHASES_60 : PHASES_30;
+    }
+
+    function activePhaseAt(elapsed) {
+      const phases = phasesForDuration();
+      const index = clamp(phases.findIndex((phase) => elapsed >= phase.s && elapsed < phase.e), 0, phases.length - 1);
+      return { phase: phases[index], index, phases };
+    }
+
+    function elapsedSeconds() {
+      if (!state.sessionStartMs) return 0;
+      if (audioCtx && state.audioStartTime !== null && audioCtx.state !== 'closed') {
+        return Math.max(0, audioCtx.currentTime - state.audioStartTime);
+      }
+      const now = state.pausedAtMs || performance.now();
+      return (now - state.sessionStartMs - state.pausedTotalMs) / 1000;
+    }
+
+    function targetRatio(key, cfg) {
+      if (typeof cfg.amp === 'number') return cfg.amp;
+      if (/GAMMA/.test(key)) return 0.7;
+      if (/BETA/.test(key)) return 0.72;
+      if (/ALPHA/.test(key)) return 0.82;
+      return 1.0;
+    }
+
+    function binauralGainFor(layer, phase) {
+      const key = layer.key;
+      const beat = layer.cfg.beat;
+      const ratio = targetRatio(key, layer.cfg);
+
+      if (VARIANT.protocolKey === 'depression' && phase.name.includes('theta-gamma')) {
+        if (/THETA/.test(key)) return ratio;
+        if (/GAMMA/.test(key)) return ratio;
+        return 0;
+      }
+
+      if (VARIANT.protocolKey === 'anxiety' && phase.name.includes('brake')) {
+        if (/BETA/.test(key)) return ratio;
+        if (/GAMMA/.test(key)) return ratio;
+        return 0;
+      }
+
+      if (beat === phase.beat) return ratio;
+      return 0;
+    }
+
+    function isoGainFor(layer, phase) {
+      const key = layer.key;
+      const gateHz = layer.cfg.gateHz;
+      const ratio = targetRatio(key, layer.cfg);
+
+      if (VARIANT.protocolKey === 'depression' && phase.name.includes('theta-gamma')) {
+        if (/THETA/.test(key)) return ratio;
+        if (/GAMMA/.test(key)) return ratio;
+        return 0;
+      }
+
+      if (VARIANT.protocolKey === 'anxiety' && phase.name.includes('brake')) {
+        if (/BETA/.test(key)) return ratio;
+        if (/GAMMA/.test(key)) return ratio;
+        return 0;
+      }
+
+      if (gateHz === phase.gateHz) return ratio;
+      return 0;
+    }
+
+    function physicalGainFor(layer, phase) {
+      const active = Array.isArray(phase.physical) && phase.physical.includes(layer.cfg.hz);
+      return active ? targetRatio(layer.key, layer.cfg) : 0;
+    }
+
+    function rampParam(param, value, atTime, seconds) {
+      if (!param) return;
+      const duration = Math.max(0.02, seconds);
+      const current = Number.isFinite(param.value) ? param.value : 0;
+      if (typeof param.cancelAndHoldAtTime === 'function') {
+        param.cancelAndHoldAtTime(atTime);
+      } else {
+        param.cancelScheduledValues(atTime);
+        param.setValueAtTime(current, atTime);
+      }
+      param.linearRampToValueAtTime(value, atTime + duration);
+    }
+
+    function createOsc(ctx, hz) {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(hz, ctx.currentTime);
+      osc.start();
+      return osc;
+    }
+
+    function createPinkNoise(ctx) {
+      const processor = ctx.createScriptProcessor(2048, 0, 2);
+      const rows = new Float32Array(16);
+      for (let i = 0; i < rows.length; i++) rows[i] = Math.random() * 2 - 1;
+      let counter = 0;
+
+      processor.onaudioprocess = (event) => {
+        const left = event.outputBuffer.getChannelData(0);
+        const right = event.outputBuffer.numberOfChannels > 1 ? event.outputBuffer.getChannelData(1) : left;
+        for (let i = 0; i < left.length; i++) {
+          counter = (counter + 1) >>> 0;
+          let n = counter;
+          let column = 0;
+          while ((n & 1) === 0 && column < rows.length - 1) {
+            column++;
+            n >>>= 1;
+          }
+          rows[column] = Math.random() * 2 - 1;
+          let sum = 0;
+          for (let j = 0; j < rows.length; j++) sum += rows[j];
+          const sample = (sum / rows.length) * 0.85;
+          left[i] = sample;
+          right[i] = sample;
+        }
+      };
+
+      return processor;
+    }
+
+    function buildBinauralLayer(ctx, key, cfg, destination) {
+      const leftOsc = createOsc(ctx, cfg.L);
+      const rightOsc = createOsc(ctx, cfg.R);
+      const leftGain = ctx.createGain();
+      const rightGain = ctx.createGain();
+      const merger = ctx.createChannelMerger(2);
+      leftGain.gain.value = 0;
+      rightGain.gain.value = 0;
+      leftOsc.connect(leftGain).connect(merger, 0, 0);
+      rightOsc.connect(rightGain).connect(merger, 0, 1);
+      merger.connect(destination);
+      return { key, cfg, leftGain, rightGain };
+    }
+
+    function buildIsoLayer(ctx, key, cfg, destination) {
+      const carrier = createOsc(ctx, cfg.carrier);
+      const gateOsc = createOsc(ctx, cfg.gateHz);
+      const gateScale = ctx.createGain();
+      const gateGain = ctx.createGain();
+      const layerGain = ctx.createGain();
+      gateScale.gain.value = 0.5;
+      gateGain.gain.value = 0.5;
+      layerGain.gain.value = 0;
+      gateOsc.connect(gateScale).connect(gateGain.gain);
+      carrier.connect(gateGain).connect(layerGain).connect(destination);
+      return { key, cfg, gateOsc, layerGain };
+    }
+
+    function buildPhysicalLayer(ctx, key, cfg, destination) {
+      const osc = createOsc(ctx, cfg.hz);
+      const gain = ctx.createGain();
+      gain.gain.value = 0;
+      osc.connect(gain).connect(destination);
+
+      // Biological drift — slow LFO ±3% prevents neural habituation (Grok recommendation)
+      // ~0.011–0.018 Hz = 55–90 s period, randomized per layer so layers decorrelate
+      const driftLfo = ctx.createOscillator();
+      const driftGain = ctx.createGain();
+      driftLfo.type = 'sine';
+      driftLfo.frequency.value = 0.011 + Math.random() * 0.007;
+      driftGain.gain.value = 0;
+      driftLfo.connect(driftGain);
+      driftGain.connect(gain.gain);
+      driftLfo.start();
+
+      // Harmonic reinforcement — 1.5× harmonic at 18% of fundamental amplitude
+      // Adds spectral texture without masking target frequency (ChatGPT recommendation)
+      let harmonicOsc = null;
+      let harmonicGain = null;
+      if (cfg.hz < 300 && cfg.hz >= 8) {
+        harmonicOsc = createOsc(ctx, cfg.hz * 1.5);
+        harmonicGain = ctx.createGain();
+        harmonicGain.gain.value = 0;
+        harmonicOsc.connect(harmonicGain).connect(destination);
+      }
+
+      return { key, cfg, gain, driftLfo, driftGain, harmonicOsc, harmonicGain };
+    }
+
+    function initAudio(durationSecs) {
+      if (!AudioContextCtor) throw new Error('Web Audio API unavailable in this browser.');
+      audioCtx = new AudioContextCtor();
+      sessionDuration = durationSecs;
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      masterGain.connect(audioCtx.destination);
+      state.audioStartTime = audioCtx.currentTime;
+
+      audioGraph = { binaural: [], iso: [], physical: [], noiseGain: null };
+      for (const [key, cfg] of Object.entries(FREQ)) {
+        if (!cfg || key === 'PINK_NOISE') continue;
+        if (typeof cfg.L === 'number' && typeof cfg.R === 'number') {
+          audioGraph.binaural.push(buildBinauralLayer(audioCtx, key, cfg, masterGain));
+        } else if (typeof cfg.carrier === 'number' && typeof cfg.gateHz === 'number') {
+          audioGraph.iso.push(buildIsoLayer(audioCtx, key, cfg, masterGain));
+        } else if (typeof cfg.hz === 'number') {
+          audioGraph.physical.push(buildPhysicalLayer(audioCtx, key, cfg, masterGain));
+        }
+      }
+
+      if (FREQ.PINK_NOISE) {
+        const noise = createPinkNoise(audioCtx);
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.value = 0.035 * targetRatio('PINK_NOISE', FREQ.PINK_NOISE);
+        noise.connect(noiseGain).connect(masterGain);
+        audioGraph.noiseGain = noiseGain;
+      }
+
+      // Logarithmic fade-in: reaches therapeutic intensity faster than linear, more natural
+      const fadeCurve = new Float32Array(128);
+      for (let i = 0; i < 128; i++) {
+        const p = i / 127;
+        fadeCurve[i] = 0.72 * (0.45 + Math.log10(1 + p * 9) * 0.55);
+      }
+      masterGain.gain.setValueCurveAtTime(fadeCurve, audioCtx.currentTime, SESSION.FADE_IN_SECS);
+      state.fadeOutScheduled = false;
+      state.ending = false;
+    }
+
+    function applyPhase(phase, atTime) {
+      if (!audioGraph) return;
+      const rampSecs = SESSION.PHASE_CROSSFADE_SECS;
+      for (const layer of audioGraph.binaural) {
+        const gain = 0.085 * binauralGainFor(layer, phase);
+        rampParam(layer.leftGain.gain, gain, atTime, rampSecs);
+        rampParam(layer.rightGain.gain, gain, atTime, rampSecs);
+      }
+      for (const layer of audioGraph.iso) {
+        const gain = 0.12 * isoGainFor(layer, phase);
+        rampParam(layer.layerGain.gain, gain, atTime, rampSecs);
+      }
+      for (const layer of audioGraph.physical) {
+        const base = layer.cfg.hz >= 300 ? 0.032 : 0.075;
+        const targetGain = base * physicalGainFor(layer, phase) * state.physicalScale * state.intensityMultiplier;
+        rampParam(layer.gain.gain, targetGain, atTime, rampSecs);
+        if (layer.driftGain) layer.driftGain.gain.setTargetAtTime(targetGain * 0.03, atTime, 2.0);
+        if (layer.harmonicGain) rampParam(layer.harmonicGain.gain, targetGain * 0.18, atTime, rampSecs);
+      }
+    }
+
+    function scheduleFadeOut(elapsed) {
+      if (!audioCtx || !masterGain || state.fadeOutScheduled) return;
+      const remaining = sessionDuration - elapsed;
+      if (remaining <= SESSION.FADE_OUT_SECS) {
+        state.fadeOutScheduled = true;
+        rampParam(masterGain.gain, 0, audioCtx.currentTime, Math.max(0.1, remaining));
+      }
+    }
+
+    function pauseAudio() {
+      if (state.pausedAtMs) return;
+      state.pausedAtMs = performance.now();
+      document.getElementById('pause-overlay').classList.add('visible');
+      document.getElementById('btn-pause').textContent = 'Resume';
+      if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
+    }
+
+    function resumeAudio() {
+      if (!state.pausedAtMs) return;
+      state.pausedTotalMs += performance.now() - state.pausedAtMs;
+      state.pausedAtMs = 0;
+      document.getElementById('pause-overlay').classList.remove('visible');
+      document.getElementById('btn-pause').textContent = 'Pause';
+      if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function togglePause() {
+      if (state.pausedAtMs) resumeAudio();
+      else pauseAudio();
+    }
+
+    function sessionLogKey() {
+      return `donaurantium-session-log-${VARIANT.protocolKey}-${VARIANT.mode}`;
+    }
+
+    function saveSessionLog(status) {
+      const entry = {
+        status,
+        protocol: VARIANT.protocolName,
+        protocolKey: VARIANT.protocolKey,
+        mode: VARIANT.mode,
+        startedAt: state.sessionLog ? state.sessionLog.startedAt : new Date().toISOString(),
+        endedAt: new Date().toISOString(),
+        durationSeconds: sessionDuration,
+        completedSeconds: Math.round(elapsedSeconds()),
+        audioOnly: state.audioOnly,
+        physicalScale: state.physicalScale,
+        refreshHz: state.refreshHz,
+      };
+      const key = sessionLogKey();
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      existing.push(entry);
+      localStorage.setItem(key, JSON.stringify(existing.slice(-180)));
+      return entry;
+    }
+
+    function exportSessionLog() {
+      const rows = JSON.parse(localStorage.getItem(sessionLogKey()) || '[]');
+      const headers = ['startedAt','endedAt','protocol','mode','status','durationSeconds','completedSeconds','audioOnly','physicalScale','refreshHz'];
+      const csv = [headers.join(',')].concat(rows.map((row) => headers.map((header) => JSON.stringify(row[header] ?? '')).join(','))).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `donaurantium-${VARIANT.protocolKey}-${VARIANT.mode}-log.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function showEndScreen() {
+      const entry = saveSessionLog('completed');
+      document.getElementById('screen-session').style.display = 'none';
+      document.getElementById('screen-end').style.display = 'grid';
+      document.getElementById('end-summary').textContent = `${VARIANT.protocolName} complete. ${Math.round(entry.completedSeconds / 60)} minutes recorded locally.`;
+    }
+
+    function endSession() {
+      if (state.ending) return;
+      state.ending = true;
+      cancelAnimationFrame(state.raf);
+      if (audioCtx && masterGain) {
+        rampParam(masterGain.gain, 0, audioCtx.currentTime, 0.5);
+        window.setTimeout(() => audioCtx && audioCtx.close(), 650);
+      }
+      showEndScreen();
+    }
+
+    function compileShader(type, source) {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        throw new Error(gl.getShaderInfoLog(shader) || 'Shader compile failed');
+      }
+      return shader;
+    }
+
+    function initGL(canvas) {
+      gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' });
+      if (!gl) return false;
+      try {
+        const vs = compileShader(gl.VERTEX_SHADER, VERT);
+        const fs = compileShader(gl.FRAGMENT_SHADER, FRAG);
+        prog = gl.createProgram();
+        gl.attachShader(prog, vs);
+        gl.attachShader(prog, fs);
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+          throw new Error(gl.getProgramInfoLog(prog) || 'Program link failed');
+        }
+        gl.useProgram(prog);
+        uniforms = {
+          res: gl.getUniformLocation(prog, 'u_res'),
+          c: gl.getUniformLocation(prog, 'u_c'),
+          zoom: gl.getUniformLocation(prog, 'u_zoom'),
+          t: gl.getUniformLocation(prog, 'u_t'),
+          pulseHz: gl.getUniformLocation(prog, 'u_pulseHz'),
+          depth: gl.getUniformLocation(prog, 'u_depth'),
+          color: gl.getUniformLocation(prog, 'u_color'),
+        };
+        vertexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+        const pos = gl.getAttribLocation(prog, 'a_pos');
+        gl.enableVertexAttribArray(pos);
+        gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+        return true;
+      } catch (error) {
+        console.warn('[Donaurantium] WebGL disabled:', error.message);
+        gl = null;
+        prog = null;
+        return false;
+      }
+    }
+
+    function resizeCanvas(canvas) {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
+      const height = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+        gl.viewport(0, 0, width, height);
+      }
+    }
+
+    function phaseVisual(elapsed, phase, index, phases) {
+      const previous = phases[Math.max(0, index - 1)] || phase;
+      const crossfade = easeInOutCubic((elapsed - phase.s) / SESSION.PHASE_CROSSFADE_SECS);
+      const color = mixVec(hexToRgb(previous.color), hexToRgb(phase.color), crossfade);
+      const c = mixVec(previous.c, phase.c, crossfade);
+      const rawZoom = 1 + 0.8 * clamp(elapsed / sessionDuration, 0, 1);
+      const isLast = index === phases.length - 1;
+      const lastProgress = isLast ? easeInOutCubic((elapsed - phase.s) / Math.max(1, phase.e - phase.s)) : 0;
+      const zoom = isLast ? mix(rawZoom, 1, lastProgress) : rawZoom;
+      return { color, c, zoom };
+    }
+
+    function drawFrame(elapsed, phase, index, phases) {
+      if (!gl || state.audioOnly) return;
+      const canvas = document.getElementById('fractal-canvas');
+      resizeCanvas(canvas);
+      const visual = phaseVisual(elapsed, phase, index, phases);
+      const pulseDepth = phase.pulseHz >= 40 ? 0.20 : (phase.pulseHz >= 10 ? 0.12 : 0.1);
+      gl.useProgram(prog);
+      gl.uniform2f(uniforms.res, canvas.width, canvas.height);
+      gl.uniform2f(uniforms.c, visual.c[0], visual.c[1]);
+      gl.uniform1f(uniforms.zoom, visual.zoom);
+      gl.uniform1f(uniforms.t, elapsed);
+      gl.uniform1f(uniforms.pulseHz, phase.pulseHz || phase.beat || phase.gateHz || 0.1);
+      gl.uniform1f(uniforms.depth, pulseDepth);
+      gl.uniform3f(uniforms.color, visual.color[0], visual.color[1], visual.color[2]);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+
+    function updateHud(elapsed, phase) {
+      document.documentElement.style.setProperty('--phase-color', phase.color);
+      document.getElementById('phase-label').textContent = phase.label;
+      document.getElementById('time-left').textContent = formatTime(sessionDuration - elapsed);
+      document.getElementById('progress-fill').style.transform = `scaleX(${clamp(elapsed / sessionDuration, 0, 1)})`;
+      const breathCue = document.getElementById('breath-cue');
+      if (breathCue) {
+        const hz = phase.beat || phase.gateHz || phase.pulseHz;
+        breathCue.textContent = hz <= 6 ? '↕ 5 / min' : '↕ 6 / min';
+        breathCue.classList.add('visible');
+      }
+    }
+
+    function mainLoop() {
+      state.raf = requestAnimationFrame(mainLoop);
+      if (!state.sessionStartMs || state.pausedAtMs) return;
+
+      const elapsed = elapsedSeconds();
+      const { phase, index, phases } = activePhaseAt(elapsed);
+      updateHud(elapsed, phase);
+      scheduleFadeOut(elapsed);
+
+      if (index !== state.currentPhaseIndex) {
+        state.currentPhaseIndex = index;
+        if (audioCtx) applyPhase(phase, audioCtx.currentTime);
+      }
+
+      drawFrame(elapsed, phase, index, phases);
+      if (elapsed >= sessionDuration) endSession();
+    }
+
+    function showWarningIfNeeded() {
+      const warning = document.getElementById('seizure-warning');
+      const key = `donaurantium-warning-${VARIANT.protocolKey}-${VARIANT.mode}`;
+      const storedChoice = sessionStorage.getItem(key);
+      if (storedChoice === 'audio-only') {
+        state.audioOnly = true;
+        document.getElementById('audio-only-toggle').checked = true;
+      }
+      if (!storedChoice) warning.classList.add('visible');
+      document.getElementById('warn-audio').addEventListener('click', () => {
+        state.audioOnly = true;
+        document.getElementById('audio-only-toggle').checked = true;
+        sessionStorage.setItem(key, 'audio-only');
+        warning.classList.remove('visible');
+      });
+      document.getElementById('warn-visual').addEventListener('click', () => {
+        state.audioOnly = false;
+        sessionStorage.setItem(key, 'visual');
+        warning.classList.remove('visible');
+      });
+    }
+
+    function updateDisplayStatus() {
+      const status = document.getElementById('display-status');
+      if (!status) return;
+      if (!state.refreshHz) {
+        status.textContent = 'Display check pending.';
+        return;
+      }
+      const visualOk = state.refreshHz >= 100;
+      status.textContent = visualOk
+        ? `Display ${state.refreshHz} Hz: 40 Hz visual pulse supported.`
+        : `Display ${state.refreshHz} Hz: 40 Hz visual pulse may alias; 120 Hz+ is preferred.`;
+    }
+
+    function estimateRefreshRate() {
+      const samples = [];
+      let last = 0;
+      function sample(ts) {
+        if (last) samples.push(ts - last);
+        last = ts;
+        if (samples.length < 36) {
+          requestAnimationFrame(sample);
+          return;
+        }
+        const average = samples.reduce((sum, value) => sum + value, 0) / samples.length;
+        state.refreshHz = Math.round(1000 / average);
+        updateDisplayStatus();
+      }
+      requestAnimationFrame(sample);
+    }
+
+    function startSession() {
+      const durationInput = document.querySelector('input[name="duration"]:checked');
+      sessionDuration = durationInput && durationInput.value === '30' ? SESSION.DURATION_SHORT : SESSION.DURATION_FULL;
+      state.audioOnly = document.getElementById('audio-only-toggle').checked;
+      const profileInput = document.querySelector('input[name="physical-profile"]:checked');
+      state.physicalScale = profileInput && profileInput.value === 'coupled' ? 1.35 : 1;
+      const intensityInput = document.getElementById('intensity-slider');
+      state.intensityMultiplier = intensityInput ? intensityInput.valueAsNumber / 100 : 1.0;
+      state.sessionLog = { startedAt: new Date().toISOString() };
+      document.body.classList.toggle('audio-only', state.audioOnly);
+      document.getElementById('screen-landing').style.display = 'none';
+      document.getElementById('screen-session').style.display = 'block';
+      document.getElementById('screen-end').style.display = 'none';
+
+      initAudio(sessionDuration);
+      const canvas = document.getElementById('fractal-canvas');
+      state.visualReady = !state.audioOnly && initGL(canvas);
+      document.body.classList.toggle('no-webgl', !state.audioOnly && !state.visualReady);
+
+      const firstPhase = phasesForDuration()[0];
+      document.documentElement.style.setProperty('--phase-color', firstPhase.color);
+      if (audioCtx) applyPhase(firstPhase, audioCtx.currentTime);
+      state.currentPhaseIndex = 0;
+      state.sessionStartMs = performance.now();
+      state.pausedTotalMs = 0;
+      state.pausedAtMs = 0;
+      state.ending = false;
+      mainLoop();
+    }
+
+    function initUI() {
+      document.getElementById('protocol-title').textContent = VARIANT.protocolName;
+      document.getElementById('variant-note').textContent = VARIANT.deviceNote;
+      document.getElementById('mode-label').textContent = VARIANT.mode === 'stereo' ? 'Stereo speaker mode' : 'Headphone mode';
+      document.getElementById('btn-start').addEventListener('click', startSession);
+      document.getElementById('btn-pause').addEventListener('click', togglePause);
+      document.getElementById('pause-overlay').addEventListener('click', resumeAudio);
+      document.getElementById('btn-resume').addEventListener('click', resumeAudio);
+      document.getElementById('btn-restart').addEventListener('click', () => window.location.reload());
+      document.getElementById('btn-export-log').addEventListener('click', exportSessionLog);
+      document.getElementById('btn-close').addEventListener('click', () => window.close());
+      document.addEventListener('keydown', (event) => {
+        if (event.code === 'Space' && document.getElementById('screen-session').style.display === 'block') {
+          event.preventDefault();
+          togglePause();
+        }
+      });
+      document.getElementById('fractal-canvas').addEventListener('click', togglePause);
+      const iSlider = document.getElementById('intensity-slider');
+      const iVal = document.getElementById('intensity-val');
+      if (iSlider && iVal) {
+        iSlider.addEventListener('input', () => {
+          iVal.textContent = `${(iSlider.valueAsNumber / 100).toFixed(1)}×`;
+        });
+      }
+      estimateRefreshRate();
+      showWarningIfNeeded();
+    }
+
+    document.addEventListener('DOMContentLoaded', initUI);
+  </script>
+</body>
+</html>

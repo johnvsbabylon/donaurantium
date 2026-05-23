@@ -1,0 +1,548 @@
+WHAT WE'RE ACTUALLY BUILDING
+=========================================================================
+Digital Genesis Theory — Project Documentation v1.0
+The Donaurantium Project | 2026-05-23
+=========================================================================
+
+
+EXECUTIVE SUMMARY
+-----------------
+
+We are building an open-source audio generation system that programmatically
+constructs multi-layered acoustic sessions designed to modulate gene expression
+via the documented biological mechanism of acoustic mechanotransduction. Each
+session targets a specific health profile — in this first round: anxiety,
+depression, and spinal stenosis simultaneously — by delivering precisely tuned
+binaural beat frequencies and carrier tones that trigger intracellular calcium
+cascades, which in turn activate transcription factors that shift the expression
+of target genes toward desired states.
+
+This is not sound healing in the new-age sense. This is applied epigenetic
+programming using acoustic signal as the delivery mechanism. Every component
+is grounded in peer-reviewed literature. The software generates the audio.
+The biology does the rest.
+
+The long-term goal is to prove, through documented self-experimentation and
+open-source replication, that sound waves can be used to surgically target
+specific genes for desired health effects — epigenetic reprogramming without
+pharmaceutical intervention, genetic modification, or invasive procedure.
+
+
+=========================================================================
+PART 1: THE BIOLOGICAL MECHANISM — WHY THIS WORKS
+=========================================================================
+
+The core scientific foundation is acoustic mechanotransduction. This is an
+established, documented field of cellular biology. Here is what the research
+confirms:
+
+1. Sound waves are pressure waves. Pressure waves physically deform cell
+   membranes when they pass through tissue.
+
+2. Cell membranes contain mechanosensitive ion channels — primarily PIEZO1
+   and TRPV4. These channels are exquisitely sensitive to membrane deformation.
+   When a sound pressure wave physically displaces the membrane, these channels
+   open within milliseconds.
+
+3. PIEZO1 and TRPV4 are calcium-permeable channels. When they open, calcium
+   ions (Ca²⁺) flood into the cell interior. This calcium signal is not subtle
+   — it is a major intracellular event.
+
+4. Calcium at elevated intracellular concentrations activates a cascade of
+   calcium-sensitive kinases: CaMKII (calcium/calmodulin-dependent protein
+   kinase II), PKC (protein kinase C), and PI3K/Akt pathway components.
+
+5. These kinases phosphorylate transcription factors — proteins that control
+   which genes get read by RNA polymerase. Phosphorylation changes their
+   shape, which changes their ability to bind gene promoter regions in the
+   nucleus.
+
+6. Transcription factors with changed binding affinity move to the nucleus.
+   Some bind to promoters and activate gene transcription (upregulation).
+   Others block promoter access and suppress transcription (downregulation).
+
+7. mRNA is produced (or suppressed). Ribosomes translate mRNA into protein
+   (or protein levels drop as existing copies degrade). Cellular behavior
+   changes as protein concentrations shift.
+
+The complete chain:
+   Sound wave → membrane deformation → PIEZO1/TRPV4 open → Ca²⁺ influx
+   → CaMKII/PKC activation → transcription factor phosphorylation
+   → nuclear translocation → promoter binding → mRNA change
+   → protein level change → cellular behavior change
+
+This chain is not theoretical. Key documented evidence:
+
+   — 2025 Nature Communications Biology (PMC12003795): Acoustic waves at
+     440 Hz, 14 kHz, and white noise produced 42 differentially expressed
+     genes after 2 hours and 145 after 24 hours in mouse muscle cells.
+     RNA-sequencing confirmed. This is the direct existence proof.
+
+   — PMC7946898: PIEZO1 activated by acoustic radiation force in osteoblastic
+     cells. Cell migration and proliferation increased. PIEZO1 knockdown
+     blocked the acoustic effect entirely — proving PIEZO1 is the primary
+     acoustic-to-cellular signal converter.
+
+   — PMC7584681: TRPV4 mediates acoustic wave-induced calcium influx,
+     confirmed in blood-brain barrier opening experiments.
+
+   — PMC7472266: Sound vibration at 10 kHz produced histone modification
+     (H3K27me3) in gene promoter regions in plant systems — direct evidence
+     of acoustic epigenetic modification.
+
+   — PMC11249672: Acoustic vibration enhanced human embryonic stem cell
+     expression of pluripotency genes (NANOG, OCT4, SOX2).
+
+The question we are answering is not WHETHER acoustic mechanotransduction
+changes gene expression — that is confirmed. The question is whether we can
+do it deliberately, with specific targets, at audible and near-audible
+frequencies, using consumer audio hardware.
+
+
+=========================================================================
+PART 2: THE HARDWARE STACK
+=========================================================================
+
+We are using a two-component delivery system:
+
+COMPONENT A — PHYSICAL BODY LAYER (Woofers)
+Two Quasar SW372 8-inch woofers from a vintage home audio system.
+These deliver:
+   • Infrasound (<20 Hz) — felt as physical vibration, not heard
+   • Low bass frequencies (20-80 Hz) — the physical entrainment range
+   • Standing waves in room space — whole-body acoustic immersion
+   • PIEZO1/TRPV4 activation across the entire body surface simultaneously
+     via physical membrane deformation through bone and soft tissue conduction
+
+This is the preparation layer. It opens the calcium channels across the
+body before the targeted neural layer begins.
+
+COMPONENT B — NEURAL ENTRAINMENT AND TARGET LAYER (Headphones)
+Standard stereo headphones delivering strict channel-separated audio.
+Headphones are mandatory for this component — room speakers mix both
+channels before reaching the ears, destroying the binaural effect.
+These deliver:
+   • Binaural beats: different frequency to each ear, brain generates the
+     difference frequency internally via the medial superior olivary nucleus
+   • Carrier tones at specific Hz targets for each biological goal
+   • HemiSync-style induction: guiding brain from waking beta → alpha →
+     theta, establishing the most receptive brain state before the
+     programming layer activates
+   • The DNA programming frequency layer merged into the binaural beat
+     carrier once target brain state is achieved
+
+Why headphones for binaural: The binaural effect requires that the left ear
+hears one frequency and the right ear hears a different frequency. If the
+tones reach the ears through room air, they mix — both ears hear both
+frequencies — and the frequency difference is computed by the room, not
+the brain. No brain-internal beat is generated. The entire neural
+entrainment mechanism fails. Headphones are not optional.
+
+
+=========================================================================
+PART 3: THE TARGET CONDITIONS AND GENE LOGIC
+=========================================================================
+
+This first session targets three conditions simultaneously. These are not
+arbitrary — they are interconnected at the biological level, share overlapping
+acoustic targets, and represent the specific health priorities of the primary
+test subject.
+
+--- CONDITION 1: SPINAL STENOSIS ---
+
+Spinal stenosis is narrowing of the spinal canal causing compression of nerve
+roots. The primary biological drivers are:
+
+(a) Structural collagen degradation in spinal discs and ligaments
+(b) Chronic inflammatory cytokine overexpression driving tissue thickening
+(c) Disc extracellular matrix breakdown from metalloproteinase imbalance
+(d) Compressed nerve roots transmitting chronic pain signals
+
+Genetic targets for spinal stenosis:
+
+COL1A1 — UPREGULATE
+Collagen Type I Alpha 1. Makes the collagen scaffold of spinal discs,
+ligaments, and connective tissue. More COL1A1 expression = more collagen
+synthesis = structural repair of degraded disc material. AlphaGenome
+scan confirmed CC genotype (reference) — no degraded variant. Full
+baseline expression. Target: acoustic stimulation to push above baseline.
+Research basis: Low intensity pulsed ultrasound (LIPUS) is the established
+clinical precursor — it demonstrably increases collagen gene expression.
+We are targeting the same pathway with audible/near-audible frequencies.
+
+IL1B — DOWNREGULATE
+Interleukin-1 Beta. The primary inflammatory cytokine in spinal stenosis.
+Elevated IL-1β drives the inflammatory cascade that causes nerve root
+compression, ligament hypertrophy, and pain amplification. Suppressing
+IL-1β expression reduces the upstream driver of stenosis progression.
+Research basis: Anti-inflammatory acoustic effects documented across
+multiple studies. 40 Hz stimulation shows particular anti-inflammatory
+profile in neural tissue (GENUS research).
+
+IL6 — DOWNREGULATE
+Interleukin-6. Systemic and local inflammatory amplifier. In spinal stenosis,
+IL-6 released from compressed nerve roots amplifies the pain signal and
+drives further inflammatory tissue changes. One risk C allele present (CG
+genotype) — one copy of the altered variant. Downregulation priority.
+Research basis: IL-6 suppression documented in LIPUS and acoustic wave
+studies across multiple tissue types.
+
+MMP3 — MODULATE (toward repair, away from breakdown)
+Matrix Metalloproteinase-3. Degrades extracellular matrix components of
+spinal discs. In healthy tissue, balanced MMP activity enables normal
+remodeling. In stenosis, elevated MMP3 accelerates disc degradation.
+AG genotype — heterozygous, one altered allele. Target: acoustic modulation
+that shifts the COL1A1/MMP3 balance toward net synthesis over net breakdown.
+Research basis: LIPUS modulates MMP expression in disc tissue. The ratio
+of collagen synthesis (COL1A1) to collagen breakdown (MMP3) is the key.
+
+--- CONDITION 2: ANXIETY ---
+
+Anxiety at the neurobiological level involves:
+(a) Dysregulated amygdala activity — threat-detection circuit over-firing
+(b) Reduced GABAergic inhibitory tone in prefrontal cortex
+(c) Elevated cortisol/stress hormone signaling
+(d) Hyperactive default mode network
+
+Acoustic targets for anxiety:
+
+THETA BINAURAL BEATS (4-8 Hz)
+The theta brainwave range is the primary target for anxiety reduction.
+Research basis:
+   — Clinical double-blind RCT (Wiley European Journal of Pain, 2020):
+     binaural beats significantly reduced pain scores AND anxiety.
+   — Multiple studies confirm theta binaural beats reduce self-reported
+     anxiety measures.
+   — Theta is associated with increased GABAergic tone, reduced amygdala
+     activation, and the hypnagogic state of high neuroplasticity.
+   — The Monroe Gateway protocols use theta induction as the core state
+     for deep psychological reprogramming.
+
+ALPHA BRIDGE (8-13 Hz)
+Used as a transitional state — waking beta (13-30 Hz) → alpha → theta.
+Alpha entrainment = relaxed awareness, reduced cortical arousal, increased
+parasympathetic nervous system tone. The session induction phase spends
+time in alpha before descending to theta.
+
+CORTISOL PATHWAY
+Elevated cortisol is both a driver and consequence of chronic anxiety.
+The endorphin/endocannabinoid release documented in binaural beat research
+(OPRM1/anandamide pathways) directly opposes cortisol signaling.
+
+--- CONDITION 3: DEPRESSION ---
+
+Depression at the neurobiological level involves:
+(a) Reduced BDNF (Brain-Derived Neurotrophic Factor) — neuronal atrophy,
+    impaired synaptic plasticity, hippocampal volume reduction
+(b) Reduced neurogenesis in the dentate gyrus of the hippocampus
+(c) Dysregulated dopamine and serotonin signaling
+(d) Hyperactive default mode network and ruminative thought patterns
+
+Acoustic targets for depression:
+
+40 Hz GAMMA — NEUROGENESIS AND BDNF
+The primary depression target. Research basis:
+   — MIT GENUS research (ScienceDaily 2025): 40 Hz audiovisual stimulation
+     amplified TCF4 expression (critical gene regulator for neurogenesis).
+     Treated subjects showed significantly more new neurons in the dentate
+     gyrus vs. controls. Dentate gyrus neurogenesis is directly implicated
+     in antidepressant response — it is the mechanism of action for SSRIs.
+   — PMC9143216: 40 Hz vibration produced the best impact on neuronal-like
+     cell growth and differentiation versus other frequencies tested.
+   — Gamma entrainment (40 Hz) is associated with peak cognitive integration,
+     memory consolidation, and the binding of distributed neural activity.
+
+20 Hz — BDNF UPREGULATION
+   — PMC11316700: Electrical stimulation at 20 Hz produced significantly
+     greater BDNF levels than any other frequency tested in the 4-80 Hz
+     range. BDNF is the primary neuroprotective/neuroplasticity factor
+     depleted in depression.
+   — BDNF upregulation is the final common pathway of virtually every
+     effective antidepressant treatment (exercise, SSRIs, ketamine,
+     electroconvulsive therapy). We target it directly.
+
+ENDOGENOUS OPIOID/ENDOCANNABINOID RELEASE
+   — OPRM1 (AA genotype — full receptor function) is the binding site for
+     endorphins. Binaural beat stimulation has been documented to trigger
+     endogenous opioid release via acoustic-induced activation of pain
+     modulation circuits. This produces mood elevation independent of
+     dopamine/serotonin pathways.
+   — FAAH (AC genotype — one protective A allele, reduced enzyme activity)
+     means anandamide (the endocannabinoid "bliss molecule") degrades more
+     slowly. Acoustic FAAH suppression compounds this protective effect.
+     More anandamide circulating = more natural mood stabilization and
+     pain dampening simultaneously.
+
+OVERLAP WITH SPINAL TARGETS
+The anti-inflammatory acoustic targets (IL1B, IL6 downregulation) serve
+depression simultaneously. Neuroinflammation is increasingly recognized
+as a primary driver of treatment-resistant depression. Reducing inflammatory
+cytokine expression in the brain is anti-inflammatory and antidepressant
+by the same mechanism. This is where the three conditions converge.
+
+
+=========================================================================
+PART 4: THE SESSION STRUCTURE
+=========================================================================
+
+A complete programmatically generated session has three phases:
+
+PHASE 1 — BODY PREPARATION (Woofers, 10-15 minutes)
+Infrasound and low-frequency standing waves fill the room. The subject
+lies or sits in the acoustic field. Physical membrane deformation activates
+PIEZO1/TRPV4 across the body surface, priming the calcium cascade mechanism.
+No headphones required yet. This is somatic preparation — getting the body's
+mechanosensory apparatus activated and receptive.
+
+Target frequencies for this phase:
+   • Sub-20 Hz infrasound: whole-body PIEZO1/TRPV4 activation
+   • 40 Hz room resonance: initial gamma entrainment through physical vibration
+   • Low rumble continuous tone: physical settling, reduced muscle tension
+
+PHASE 2 — NEURAL INDUCTION (Headphones, 10-15 minutes)
+Binaural beats guide the brain from the waking state into the target
+receptive state. Standard HemiSync descent protocol:
+   • Start: beta carrier tones (13-30 Hz beat)
+   • Transition: alpha (8-13 Hz beat) — relaxed, eyes closed
+   • Target: theta (4-8 Hz beat) — hypnagogic, maximally receptive state
+
+High KCNQ5 expression (ref=356, highest in the audio reception panel,
+genetically confirmed) means the neural entrainment hardware is at high
+baseline activity. The brain is biologically primed to follow rhythmic
+input. The induction is expected to work efficiently.
+
+PHASE 3 — PROGRAMMING LAYER (Headphones + Woofers, 30-60 minutes)
+Once theta state is confirmed/estimated (approximately 20-25 minutes into
+the session based on Monroe protocol timings), the target frequencies layer
+in. The binaural beat holds theta state while carrier tones specific to
+each biological target run simultaneously.
+
+The programming stack running in parallel in Phase 3:
+
+   ANXIETY / NEURAL ENTRAINMENT LAYER:
+   Binaural beat: 6 Hz (mid-theta)
+   Carrier: 200 Hz left, 206 Hz right → 6 Hz internal beat
+   Effect: Sustained theta → GABAergic tone, amygdala quieting, cortisol
+   suppression, OPRM1-mediated endorphin release
+
+   DEPRESSION / NEUROGENESIS LAYER:
+   Tone: 40 Hz (pure gamma frequency)
+   Tone: 20 Hz (sub-bass, felt physically via woofer and conducted through
+   bone to neural tissue)
+   Effect: 40 Hz → TCF4/neurogenesis (MIT GENUS mechanism)
+            20 Hz → BDNF upregulation (PMC11316700)
+
+   SPINE / ANTI-INFLAMMATORY LAYER:
+   Tone: Frequency-specific microcurrent analog (to be determined by
+   spine AlphaGenome results) targeting:
+   COL1A1 upregulation: collagen synthesis frequency (LIPUS analog, ~45 kHz
+   modulated down into audible carrier, or documented low-frequency analog)
+   IL1B/IL6 suppression: anti-inflammatory acoustic profile
+   FAAH suppression: to preserve anandamide → natural pain + mood support
+   MMP3 modulation: balanced remodeling over pure breakdown
+
+   BACKGROUND NOISE LAYER:
+   Pink noise or brown noise base: masks environmental disruption, sustains
+   continuous membrane stimulation across the full frequency range, provides
+   acoustic "carrier medium" through which the target frequencies propagate
+
+
+=========================================================================
+PART 5: WHAT THE SOFTWARE ACTUALLY DOES
+=========================================================================
+
+The software we are building generates all audio programmatically. No
+manual mixing. No commercial audio tools required. The code takes a target
+profile (conditions to address, duration, intensity preferences) and outputs
+audio files ready for immediate playback.
+
+Technical implementation:
+
+INPUT: Session configuration
+   — Target conditions: [anxiety, depression, spinal_stenosis]
+   — Duration: session length in minutes
+   — Phase timings: body prep / induction / programming durations
+   — Output: left channel file, right channel file, woofer file, or
+     combined stereo mix with separate woofer track
+
+AUDIO GENERATION PIPELINE:
+   1. Generate carrier sine waves at specified frequencies (numpy/scipy)
+   2. Apply binaural offset: left channel at carrier_freq, right channel
+      at carrier_freq + beat_freq, maintaining stereo separation
+   3. Generate phase-correct woofer track (mono, infrasound + low bass)
+   4. Apply amplitude envelopes: smooth phase transitions, no hard cuts
+   5. Layer all tracks with correct gain ratios
+   6. Apply gentle compression to protect hearing at volume
+   7. Export as .wav (lossless) or .mp3 (compatible)
+   8. Generate session manifest: what was generated, why, target genes,
+      expected biological effects per phase
+
+GENERATION TOOLS:
+   Primary: Python with numpy (array math for waveforms) + scipy (signal
+   processing) + soundfile or wave module (export)
+   Secondary: FFMPEG for format conversion and final mixing if needed
+   No external dependencies beyond standard scientific Python stack
+
+EXAMPLE OUTPUT FILES:
+   session_01_spine_anxiety_depression/
+   ├── phase1_body_prep_woofer.wav      (infrasound + 40Hz room layer)
+   ├── phase2_induction_stereo.wav      (binaural beat descent to theta)
+   ├── phase3_programming_left.wav      (left ear carrier)
+   ├── phase3_programming_right.wav     (right ear carrier)
+   ├── phase3_woofer.wav               (20Hz + 40Hz physical layer)
+   └── session_manifest.txt            (full technical breakdown)
+
+The woofer track plays through the Quasar SW372 speakers.
+The stereo tracks play through headphones.
+Both run simultaneously during Phase 3.
+
+
+=========================================================================
+PART 6: THE SCIENTIFIC VALIDATION FRAMEWORK
+=========================================================================
+
+This is self-experimentation with documented protocol and outcome tracking.
+The open-source release includes not just the audio generation code but
+the full experimental framework:
+
+MEASUREMENT PROTOCOL:
+   — Before session: pain scale (1-10), anxiety scale (1-10), mood rating,
+     functional mobility assessment (spinal), sleep quality note
+   — After session: same metrics immediately + 24h later
+   — Weekly: cumulative trend data
+   — Monthly: clinical markers where accessible (inflammation markers,
+     functional assessments)
+
+HYPOTHESIS:
+   Consistent acoustic programming sessions targeting COL1A1 upregulation
+   and IL1B/IL6 downregulation, delivered via the documented
+   mechanotransduction cascade (PIEZO1/TRPV4 → Ca²⁺ → transcription
+   factor activation), will produce measurable improvement in:
+   (a) Subjective pain scores in spinal stenosis over a 30-90 day period
+   (b) Subjective anxiety measures over a 14-30 day period
+   (c) Subjective depression measures over a 14-30 day period
+   (d) Functional mobility metrics over a 30-90 day period
+
+NULL HYPOTHESIS:
+   No statistically significant change in any measured outcome versus
+   pre-protocol baseline.
+
+The data is tracked, published openly, and the community is invited to
+replicate. This is n=1 to start. The hypothesis gets stronger with each
+additional replication.
+
+
+=========================================================================
+PART 7: WHY THIS IS SIGNIFICANT — THE BIGGER PICTURE
+=========================================================================
+
+If the hypothesis is confirmed — even partially — the implications are
+substantial:
+
+Current pharmacological approaches to these conditions:
+   Spinal stenosis: NSAIDs (systemic side effects), corticosteroid
+   injections (degraded over time), surgical decompression (invasive,
+   irreversible, high complication risk in some populations)
+   Anxiety: Benzodiazepines (dependency, tolerance, withdrawal), SSRIs
+   (6-8 week onset, sexual side effects, discontinuation syndrome)
+   Depression: SSRIs/SNRIs (same issues as above), MAOIs, ECT (invasive)
+
+Acoustic epigenetic programming, if validated:
+   — Non-invasive (no surgery, no needles)
+   — Non-pharmacological (no drug tolerance, no dependency, no withdrawal)
+   — Targetable (specific frequencies for specific genes)
+   — Accessible (consumer hardware — headphones and speakers)
+   — Replicable (open-source code, documented protocol, verifiable methodology)
+   — Additive (can run alongside existing treatment, not instead of)
+   — Free at point of use after initial hardware cost
+
+The deeper theoretical significance: this project is the first practical
+test of using genomic data (AlphaGenome variant scoring) to inform acoustic
+programming targets for a specific individual's genetic profile. The variant
+scoring tells us which genes are at baseline, which have altered expression
+from variants, and which need to be pushed in which direction. The acoustic
+protocol is then built specifically around that genetic map.
+
+Personalized acoustic epigenetic medicine. Genotype-informed. Open source.
+Verifiable. This is what we are building.
+
+
+=========================================================================
+PART 8: WHAT THIS IS NOT
+=========================================================================
+
+For scientific and ethical clarity:
+
+This is NOT genetic modification. We are not changing the DNA sequence.
+We are changing which parts of the existing sequence are being read at
+any given time — epigenetic regulation, not genetic engineering.
+
+This is NOT a medical treatment or cure. It is a research protocol under
+self-directed experimentation with full informed consent of the subject
+(who is also the researcher).
+
+This is NOT guaranteed to work. The mechanotransduction chain is documented.
+Frequency-specific effects on gene expression are documented. Whether
+consumer audio hardware at audible frequencies produces the magnitude of
+effect needed for clinical outcomes is the open research question.
+
+This is NOT new-age sound healing, chakra alignment, or vibrational therapy
+in the metaphysical sense. Every claim made here has a PMC citation or
+peer-reviewed basis. The mechanism is cellular biology, not philosophy.
+The skepticism is welcome. The protocol is designed to produce measurable
+outcomes that can confirm or deny the hypothesis.
+
+
+=========================================================================
+IMPLEMENTATION NOTE — 2026-05-23
+=========================================================================
+
+The architecture described in this document (Python/numpy audio generation,
+woofer hardware layer, .wav file output) was the original design plan.
+
+The project pivoted to browser-based Web Audio API delivery. All sessions
+are now standalone HTML files — no build step, no server, no dependencies.
+The woofer layer became a headphone-delivered physical mechanotransduction
+layer (sub-bass tones via Web Audio OscillatorNode). This document remains
+as the original design specification and research foundation.
+
+=========================================================================
+CURRENT STATUS — as of 2026-05-23
+=========================================================================
+
+Completed:
+   [x] Digital Genesis Theory framework (BRAINSTORM_001-006)
+   [x] AlphaGenome genomic scans — anxiety, depression, spine, general wellness
+   [x] All research deep-dive docs (AUDIO_MECHANOSENSORY, SPINE, ANXIETY, etc.)
+   [x] Specific Hz target mapping per gene — all four panels
+   [x] Complete protocol specifications — all four conditions
+   [x] Eight standalone HTML session players — fully implemented and audited
+   [x] Biological drift, harmonic reinforcement, logarithmic fade-in
+   [x] WebGL Julia set fractal renderer (phase-locked)
+   [x] GENUS 40 Hz audio + visual protocol
+   [x] BDNF exclusion from all spinal variants (confirmed clean)
+   [x] Full documentation suite (DISCLAIMER, ESTIMATES, HTML_IMPLEMENTATION_NOTES)
+   [x] Project name: Donaurantium
+   [x] License: MIT
+   [x] Repository structure: versions/ + docs/
+   [x] Community documentation: README + all companion docs
+
+Pending:
+   [ ] Community replication data
+   [ ] Biomarker tracking results (90-day)
+   [ ] Woofer/tactile transducer hardware layer (future optional expansion)
+
+=========================================================================
+PROJECT AUTHORSHIP
+=========================================================================
+
+Research and documentation: The Donaurantium Project
+AlphaGenome genomic scanning: executed locally on consumer hardware
+Date initiated: 2026-05-23
+
+"Not coding new DNA. Changing which existing DNA gets read.
+ Epigenetic programming via acoustic standing waves."
+
+=========================================================================
+END DOCUMENT
+=========================================================================
