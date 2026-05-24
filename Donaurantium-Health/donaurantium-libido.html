@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ============================================================================
+  DONAURANTIUM — LIBIDO PROTOCOL
+  Headphones only · Bilateral fractal visual · Desire + Sensory Amplification
+  ============================================================================
+  Project:   Donaurantium — Open-Source Acoustic Epigenetic Programming System
+  Target:    Arousal / libido — desire, sensory sensitivity, body presence
+  Version:   1.0.0-libido
+  Audio:     Stereo headphones required.
+
+  WHAT THIS IS
+  ─────────────
+  One goal: arousal. Not sedation, not euphoria, not healing. The desire
+  state. The fully-in-your-body, heightened-senses, wanting-contact state.
+
+  Four binaural layers. Two physical layers. One fractal with bilateral
+  symmetry. The wanting circuit held open and warm for 60 minutes.
+
+  THE AROUSAL NEUROSCIENCE
+  ─────────────────────────
+  Unlike the euphoria protocol (OPRM1 / "liking"), arousal targets the
+  WANTING circuit — Berridge's incentive salience system. These are
+  neurologically distinct. You can "like" without "wanting" (opioid
+  satiation) and "want" without "liking" (dopamine depletion after reward).
+  This protocol targets WANTING plus sensory amplification.
+
+  1. OXYTOCIN THETA — 6 Hz (L=120, R=126)
+     6 Hz theta drives hippocampal-amygdala resonance — the emotional
+     salience loop that makes sensory input feel significant and wanted.
+     PVN (paraventricular nucleus) oxytocin neurons fire at theta rhythm.
+     OXT release: wanting closeness, warmth, contact-seeking, bonding urgency.
+     Also acts as neuromodulator amplifying dopamine receptor sensitivity.
+     The "why do I suddenly want to be held" quality.
+     Carrier 120 Hz: deep, subterranean, felt before heard.
+
+  2. DESIRE THETA — 7 Hz (L=200, R=207)
+     7 Hz NAc theta = Berridge incentive salience / dopamine WANTING system.
+     VTA dopamine neurons fire at theta during appetitive anticipation —
+     NOT during reward consumption, during the WANTING of it.
+     This is the engine of desire: the reaching-toward, the magnetic pull.
+     Distinct from the euphoria protocol's 7.83 Hz (Schumann / NAc reward).
+     7.0 Hz specifically targets the mesolimbic appetite arc.
+     Carrier 200 Hz: warm, distinguishable from the 6 Hz layer below it.
+
+  3. BETA ACTIVATION — 18 Hz (L=280, R=298)
+     18 Hz beta → locus coeruleus → norepinephrine release → sensory gain↑.
+     NE amplifies the signal-to-noise ratio of every sensory input:
+     tactile, thermal, proprioceptive, interoceptive — all become more.
+     Elevated arousal without anxiety — the theta stack underneath holds
+     it warm and directed, not scattered.
+     The "every touch is more" quality.
+     Carrier 280 Hz: bright enough to register as activation.
+
+  4. GAMMA BINDING — 40 Hz (L=320, R=360)
+     40 Hz gamma = cortical binding of multisensory streams.
+     The insula (interoceptive cortex) peaks at 40 Hz binding.
+     Somatosensory cortex gamma = full body-presence experience.
+     Result: fully IN your body, not observing from a slight distance.
+     Without this layer, arousal is a concept; with it, it's physical.
+     Carrier 320 Hz: warm gamma carrier (not harsh at 440 Hz).
+
+  PHYSICAL LAYERS
+  ────────────────
+  SKULL_40HZ — 40 Hz physical at amp 0.90 (highest in the Donaurantium family)
+    Bone conduction → CSF → direct somatosensory cortex activation.
+    Mechanotransduction via PIEZO1/TRPV4 → Ca²⁺ cascade in sensory neurons.
+    You will FEEL this, not hear it. Warm physical fullness.
+
+  BODY_20HZ — 20 Hz physical at amp 0.68
+    Deep spinal and thoracic resonance. Below clear pitch perception.
+    The "whole body is vibrating slightly" quality.
+    Felt as physical warmth/weight/presence throughout torso.
+    Together with 40 Hz: layered physical activation from deep to surface.
+
+  THE BILATERAL FRACTAL
+  ──────────────────────
+  The visual uses a Julia set with bilateral (left-right) symmetry, achieved
+  by folding the x-axis before iteration: p.x = abs(p.x).
+  The result is Rorschach-like — organic, symmetric, body-suggesting.
+  Human visual cortex is primed to find significant forms in bilateral
+  symmetric patterns. Combined with the warm rose-amber palette and slow
+  indicaDrift, the fractal creates an environment that supports rather than
+  distracts from the state being induced.
+  Edge glow: rose-gold on all fractal boundaries.
+  Palette: orange-amber → warm rose → deep rose → rose-purple → warm gold.
+  No cold blues. No cold greens. All warm.
+
+  PHASE STRUCTURE
+  ────────────────
+  Body Arrival  ( 5 min): 6 Hz + both physical. Get physically present first.
+  Desire Build  (15 min): Add 7 Hz + 18 Hz. Wanting system online.
+  Peak          (35 min): All four binaural + both physical. Held.
+  Return        ( 5 min): 6 Hz only + physical. Warm resolution.
+  TOTAL: 60 min
+
+  Note on NoAlphaGenome: This protocol targets real-time neural dynamics
+  (oscillation entrainment, neurotransmitter release, sensory gain control)
+  NOT gene expression. AlphaGenome validates epigenetic pathways.
+  The arousal system runs in milliseconds, not hours. No genomics needed.
+
+  License: MIT
+  ============================================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donaurantium — Libido Protocol</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080305;
+      --surface: #110810;
+      --border: rgba(255,255,255,0.07);
+      --text: #ede8f0;
+      --muted: #8a7890;
+      --phase-color: #FF4560;
+      --accent: #FF4560;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+      min-height: 100dvh;
+      overflow: hidden;
+    }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* ── Landing ─────────────────────────────────────────── */
+    #screen-landing {
+      background: var(--bg);
+      display: grid;
+      place-items: center start;
+      align-content: start;
+      padding: 24px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: min(520px, calc(100vw - 48px));
+      padding: 2rem 0 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+
+    .title-block { display: flex; flex-direction: column; gap: 0.35rem; }
+    .title-block h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--phase-color);
+    }
+    .title-block p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .card h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .layer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .layer-pill {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+    .layer-pill strong {
+      display: block;
+      color: var(--phase-color);
+      font-size: 0.82rem;
+    }
+
+    .phase-row {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.80rem;
+    }
+    .phase-pill {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.7rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .phase-pill strong { display: block; color: var(--phase-color); font-size: 0.77rem; }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.84rem;
+      flex-wrap: wrap;
+    }
+    .option-row label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+
+    .duration-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .dur-btn {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      text-align: center;
+    }
+    .dur-btn.active {
+      background: rgba(255, 69, 96, 0.18);
+      border-color: var(--phase-color);
+      color: var(--phase-color);
+    }
+
+    .intensity-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.84rem;
+    }
+    .intensity-range {
+      flex: 1;
+      accent-color: var(--phase-color);
+    }
+
+    #btn-start {
+      margin-top: 0.4rem;
+      padding: 0.95rem 1.5rem;
+      background: linear-gradient(135deg, #8B003A 0%, #FF4560 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    #btn-start:hover { opacity: 0.88; }
+
+    .safety {
+      font-size: 0.74rem;
+      color: var(--muted);
+      line-height: 1.55;
+      opacity: 0.8;
+    }
+
+    /* ── Session screen ──────────────────────────────────── */
+    #screen-session {
+      background: var(--bg);
+      display: none;
+      align-items: flex-start;
+    }
+
+    /* Bilateral fractal canvas */
+    #fractal-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 3s ease;
+    }
+    #fractal-canvas.visible { opacity: 1; }
+
+    .hud {
+      position: fixed;
+      top: 20px; left: 20px; right: 20px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    .hud-pill {
+      background: rgba(0,0,0,0.55);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.80rem;
+      color: var(--text);
+      backdrop-filter: blur(8px);
+    }
+    #btn-pause {
+      margin-left: auto;
+      pointer-events: all;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.80rem;
+      color: var(--text);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    #progress-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      z-index: 10;
+    }
+    #progress-fill {
+      height: 100%;
+      background: var(--phase-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: background 2s ease;
+    }
+
+    /* Breath pacer */
+    #breath-pacer {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 2s ease;
+      pointer-events: none;
+    }
+    #breath-pacer.visible { opacity: 1; }
+    .breath-ring {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--phase-color);
+      animation: breathe-libido 11s ease-in-out infinite;
+      opacity: 0.75;
+    }
+    @keyframes breathe-libido {
+      0%,100% { transform: scale(0.65); opacity: 0.40; }
+      45%      { transform: scale(1.00); opacity: 0.85; }
+    }
+    .breath-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Pause overlay */
+    #pause-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(8,3,5,0.82);
+      z-index: 20;
+      place-items: center;
+      backdrop-filter: blur(6px);
+    }
+    #pause-overlay.visible { display: grid; }
+    .pause-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .pause-card h2 { font-size: 1.1rem; font-weight: 600; }
+    .pause-card p { font-size: 0.84rem; color: var(--muted); }
+    #btn-resume {
+      padding: 0.75rem 1.8rem;
+      background: var(--phase-color);
+      border: none; border-radius: 8px;
+      color: #fff; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* End screen */
+    #screen-end {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+      padding: 2rem;
+    }
+    #screen-end h2 { font-size: 1.4rem; font-weight: 700; color: var(--phase-color); }
+    #screen-end p  { font-size: 0.88rem; color: var(--muted); max-width: 380px; line-height: 1.6; }
+    .end-actions { display: flex; gap: 1rem; }
+    .end-btn {
+      padding: 0.7rem 1.4rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── LANDING ─────────────────────────────────────────── -->
+  <div id="screen-landing" class="screen">
+    <main>
+      <div class="title-block">
+        <h1>Donaurantium — Libido</h1>
+        <p>Acoustic arousal induction · desire + sensory amplification + body presence<br>
+           Stereo headphones required · Private setting recommended</p>
+      </div>
+
+      <div class="card">
+        <h2>Neural Stack</h2>
+        <div class="layer-grid">
+          <div class="layer-pill">
+            <strong>6 Hz — Oxytocin Theta</strong>
+            PVN firing · wanting-contact · hippocampal-amygdala salience
+          </div>
+          <div class="layer-pill">
+            <strong>7 Hz — Desire Circuit</strong>
+            NAc theta · dopamine WANTING · mesolimbic incentive salience
+          </div>
+          <div class="layer-pill">
+            <strong>18 Hz — Sensory Beta</strong>
+            Locus coeruleus · NE release · every sensation amplified
+          </div>
+          <div class="layer-pill">
+            <strong>40 Hz — Body Gamma</strong>
+            Cortical binding · insula activation · fully in the body
+          </div>
+          <div class="layer-pill">
+            <strong>40 Hz physical</strong>
+            Skull driver · mechanotransduction · somatosensory cortex
+          </div>
+          <div class="layer-pill">
+            <strong>20 Hz physical</strong>
+            Body warmth layer · spinal/thoracic resonance · physical fullness
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Phase Structure</h2>
+        <div class="phase-row">
+          <div class="phase-pill"><strong>5 min</strong>Body Arrival</div>
+          <div class="phase-pill"><strong>15 min</strong>Desire Build</div>
+          <div class="phase-pill"><strong>35 min</strong>Peak</div>
+          <div class="phase-pill"><strong>5 min</strong>Return</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Options</h2>
+        <div class="duration-row">
+          <button class="dur-btn active" data-dur="full">60 min (full)</button>
+          <button class="dur-btn" data-dur="half">30 min</button>
+        </div>
+        <div class="intensity-row">
+          <span>Intensity</span>
+          <input id="intensity-slider" type="range" class="intensity-range"
+                 min="50" max="160" value="100" step="5"
+                 aria-label="Intensity 0.5× to 1.6×">
+          <span id="intensity-val" style="min-width:3.5ch;text-align:right">1.0×</span>
+        </div>
+      </div>
+
+      <button id="btn-start" type="button">🔥 BEGIN LIBIDO PROTOCOL</button>
+      <p class="safety">Research protocol. Not a medical treatment. Use a comfortable
+        headphone volume. Choose a private setting — this protocol is designed to be
+        effective. Stop immediately if you experience dizziness, discomfort, or any
+        unwanted effect. Do not operate machinery after use.</p>
+    </main>
+  </div>
+
+  <!-- ── SESSION ─────────────────────────────────────────── -->
+  <div id="screen-session" class="screen" aria-live="polite">
+    <canvas id="fractal-canvas" aria-hidden="true"></canvas>
+    <div class="hud">
+      <div class="hud-pill">
+        <span id="phase-label">Ready</span>
+        &nbsp;·&nbsp;
+        <span id="time-left">00:00</span>
+      </div>
+      <div id="breath-cue" class="hud-pill" style="opacity:0;transition:opacity 2s"></div>
+      <button id="btn-pause" type="button">Pause</button>
+    </div>
+    <div id="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+    <div id="breath-pacer" aria-label="Resonance breathing pacer">
+      <div class="breath-ring" aria-hidden="true"></div>
+      <div class="breath-label" id="breath-text">breathe</div>
+    </div>
+  </div>
+
+  <!-- ── PAUSE OVERLAY ───────────────────────────────────── -->
+  <div id="pause-overlay" role="dialog" aria-modal="true" aria-label="Paused">
+    <div class="pause-card">
+      <h2>Paused</h2>
+      <p>Audio off · fractal still · state preserved</p>
+      <button id="btn-resume" type="button">Resume</button>
+    </div>
+  </div>
+
+  <!-- ── END SCREEN ──────────────────────────────────────── -->
+  <div id="screen-end" class="screen">
+    <h2>Session complete</h2>
+    <p id="end-summary"></p>
+    <div class="end-actions">
+      <button class="end-btn" id="btn-restart">Run again</button>
+      <button class="end-btn" id="btn-close">Close</button>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+
+    // ========================================================================
+    // SECTION 1: CONSTANTS
+    // ========================================================================
+
+    const SESSION = {
+      DURATION_FULL: 3600,
+      DURATION_HALF: 1800,
+    };
+
+    const FADE_IN_SECS  = 8;
+    const FADE_OUT_SECS = 25;
+
+    // ── Frequency definitions ─────────────────────────────────────────────────
+    const FREQ = {
+
+      // BINAURAL LAYERS ────────────────────────────────────────────────────────
+
+      OXYTOCIN_6HZ: {
+        L: 120, R: 126, beat: 6,
+        targets: ['OXT', 'OXTR', 'PVN', 'LIMBIC-THETA', 'HIPPOCAMPAL-AMYGDALA',
+                  'BONDING', 'WANTING-CONTACT', 'EMOTIONAL-SALIENCE'],
+        ref: '6 Hz theta → hippocampal-amygdala resonance loop. PVN oxytocin neurons ' +
+             'fire at theta rhythm. OXT release creates wanting-closeness and amplifies ' +
+             'dopamine receptor sensitivity. Carrier 120 Hz: felt not heard.',
+      },
+
+      DESIRE_7HZ: {
+        L: 200, R: 207, beat: 7,
+        targets: ['NAC-THETA', 'VTA', 'DOPAMINE-WANTING', 'DRD1', 'DRD2',
+                  'INCENTIVE-SALIENCE', 'MESOLIMBIC', 'BERRIDGE-WANTING'],
+        ref: '7 Hz NAc theta = Berridge incentive salience — dopamine WANTING circuit. ' +
+             'VTA fires at theta during appetitive anticipation, not consumption. ' +
+             'This is the magnetic pull of desire, neurologically precise.',
+      },
+
+      BETA_18HZ: {
+        L: 280, R: 298, beat: 18,
+        targets: ['LOCUS-COERULEUS', 'NOREPINEPHRINE', 'SENSORY-GAIN', 'ADRA1A',
+                  'ADRA2A', 'AROUSAL-ACTIVATION', 'TACTILE-AMPLIFICATION'],
+        ref: '18 Hz beta → locus coeruleus → NE release → sensory gain amplification. ' +
+             'Every tactile, thermal, proprioceptive signal gets louder. ' +
+             'Theta grounding (6+7 Hz below) keeps it warm not anxious.',
+      },
+
+      GAMMA_40HZ: {
+        L: 320, R: 360, beat: 40,
+        targets: ['SENSORY-BINDING', 'INSULA', 'SOMATOSENSORY', 'BODY-PRESENCE',
+                  'CORTICAL-GAMMA', 'INTEROCEPTION'],
+        ref: '40 Hz gamma → cortical binding of all sensory streams. ' +
+             'Insula (interoceptive cortex) activation peaks at gamma binding. ' +
+             'The "fully in your body" quality. Without this, arousal is a concept.',
+      },
+
+      // PHYSICAL LAYERS (headphone driver → skull → bone conduction) ──────────
+
+      SKULL_40HZ: {
+        hz: 40, amp: 0.90,
+        targets: ['SKULL-GAMMA', 'PIEZO1', 'TRPV4', 'SOMATOSENSORY-CORTEX',
+                  'PHYSICAL-AROUSAL', 'CA2-CASCADE'],
+        ref: '40 Hz physical — highest amplitude in Donaurantium family. ' +
+             'Bone conduction → mechanotransduction → Ca²⁺ → somatosensory cortex. ' +
+             'Physically felt as warm fullness throughout skull and upper spine.',
+      },
+
+      BODY_20HZ: {
+        hz: 20, amp: 0.68,
+        targets: ['BODY-WARMTH', 'SPINAL-RESONANCE', 'THORACIC', 'DEEP-BODY'],
+        ref: '20 Hz physical — deep spinal and thoracic resonance. ' +
+             'Below clear pitch perception; felt as vibration in torso. ' +
+             'Creates physical weight/warmth/presence. Layered with 40 Hz: ' +
+             'surface gamma above deep body warmth below.',
+      },
+
+      PINK_NOISE: {
+        amp: 0.12, algorithm: 'voss-mccartney',
+        targets: ['stochastic-resonance', 'background-floor'],
+      },
+    };
+
+    // ── Phase definitions ─────────────────────────────────────────────────────
+    //
+    // Phase 1 — BODY ARRIVAL (5 min):
+    //   6 Hz oxytocin + both physical layers.
+    //   No beta, no gamma yet. Just physical presence and warmth.
+    //   The body needs to be awake before the wanting system can engage.
+    //
+    // Phase 2 — DESIRE BUILD (15 min):
+    //   Add 7 Hz (NAc/wanting) + 18 Hz (NE/sensory-gain).
+    //   The desire system comes online warm. Theta established before beta.
+    //   Gradient 3 min: 7 Hz and 18 Hz ramp in.
+    //
+    // Phase 3 — PEAK (35 min):
+    //   All four binaural layers + both physical. Held.
+    //   4-min chromatic gradient ramp. Full sensory amplification.
+    //   This is the sustained arousal state.
+    //
+    // Phase 4 — RETURN (5 min):
+    //   6 Hz only + physical continues.
+    //   NOT a cliff edge. 6 Hz warm theta lands the state gently.
+    //   Physical layers continue for body warmth continuity.
+
+    const PHASES_60 = [
+      {
+        name: 'body-arrival',
+        s: 0, e: 300,
+        activeBeats: [6],
+        physical: [20, 40],
+        color: '#7B3A00',
+        label: 'Body Arrival',
+        gradientRampSecs: 0,
+        c: [-0.4, 0.60],
+        pulseHz: 0.08,
+        indicaDrift: true,
+        chromaMax: 0.0,
+      },
+      {
+        name: 'desire-build',
+        s: 300, e: 1200,
+        activeBeats: [6, 7, 18],
+        physical: [20, 40],
+        color: '#A8003A',
+        label: 'Desire Build',
+        gradientRampSecs: 180,
+        c: [-0.2, 0.637],
+        pulseHz: 0.10,
+        indicaDrift: true,
+        chromaMax: 0.20,
+      },
+      {
+        name: 'peak',
+        s: 1200, e: 3300,
+        activeBeats: [6, 7, 18, 40],
+        physical: [20, 40],
+        color: '#FF4560',
+        label: 'Peak',
+        gradientRampSecs: 240,
+        c: [-0.1, 0.651],
+        pulseHz: 0.12,
+        indicaDrift: true,
+        chromaMax: 0.48,
+      },
+      {
+        name: 'return',
+        s: 3300, e: 3600,
+        activeBeats: [6],
+        physical: [20, 40],
+        color: '#7E2047',
+        label: 'Return',
+        gradientRampSecs: 0,
+        c: [-0.35, 0.58],
+        pulseHz: 0.06,
+        indicaDrift: true,
+        chromaMax: 0.0,
+      },
+    ];
+
+    const PHASES_30 = [
+      {
+        name: 'body-arrival',
+        s: 0, e: 180,
+        activeBeats: [6],
+        physical: [20, 40],
+        color: '#7B3A00',
+        label: 'Body Arrival',
+        gradientRampSecs: 0,
+        c: [-0.4, 0.60],
+        pulseHz: 0.08,
+        indicaDrift: true,
+        chromaMax: 0.0,
+      },
+      {
+        name: 'desire-build',
+        s: 180, e: 600,
+        activeBeats: [6, 7, 18],
+        physical: [20, 40],
+        color: '#A8003A',
+        label: 'Desire Build',
+        gradientRampSecs: 120,
+        c: [-0.2, 0.637],
+        pulseHz: 0.10,
+        indicaDrift: true,
+        chromaMax: 0.20,
+      },
+      {
+        name: 'peak',
+        s: 600, e: 1620,
+        activeBeats: [6, 7, 18, 40],
+        physical: [20, 40],
+        color: '#FF4560',
+        label: 'Peak',
+        gradientRampSecs: 180,
+        c: [-0.1, 0.651],
+        pulseHz: 0.12,
+        indicaDrift: true,
+        chromaMax: 0.48,
+      },
+      {
+        name: 'return',
+        s: 1620, e: 1800,
+        activeBeats: [6],
+        physical: [20, 40],
+        color: '#7E2047',
+        label: 'Return',
+        gradientRampSecs: 0,
+        c: [-0.35, 0.58],
+        pulseHz: 0.06,
+        indicaDrift: true,
+        chromaMax: 0.0,
+      },
+    ];
+
+    // ========================================================================
+    // SECTION 2: WEBGL — BILATERAL SYMMETRY FRACTAL
+    // ========================================================================
+    // Julia set with p.x = abs(p.x) fold before iteration.
+    // Creates Rorschach-like bilateral symmetric organic patterns.
+    // Rose-amber warm palette — orange → rose → deep rose → rose-purple → amber.
+    // Rose-gold edge glow. Deep rose warm dark floor. indicaDrift throughout.
+
+    let gl = null, glProg = null, glUniforms = {}, glVertBuf = null;
+
+    const LIB_VERT = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+
+    const LIB_FRAG = `
+      precision highp float;
+      uniform vec2  u_res;
+      uniform vec2  u_c;
+      uniform float u_zoom;
+      uniform float u_t;
+      uniform float u_pulseHz;
+      uniform float u_depth;
+      uniform float u_vigbreathe;
+      uniform float u_chroma;
+      const int MAX_ITER = 256;
+      const float PI = 3.141592653589793;
+
+      float julia(vec2 z) {
+        vec2 v = z;
+        for (int i = 0; i < MAX_ITER; i++) {
+          float r2 = dot(v, v);
+          if (r2 > 4.0) {
+            float smooth = float(i) + 1.0 - log(log(sqrt(r2))) / log(2.0);
+            return clamp(smooth / float(MAX_ITER), 0.0, 1.0);
+          }
+          v = vec2(v.x * v.x - v.y * v.y + u_c.x, 2.0 * v.x * v.y + u_c.y);
+        }
+        return 0.0;
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_res;
+        vec2 p  = uv - 0.5;
+        p.x *= u_res.x / u_res.y;
+
+        // ── BILATERAL SYMMETRY ─────────────────────────────────────────────
+        // Fold x-axis before Julia iteration.
+        // Both halves compute identically → left-right mirror.
+        // Produces Rorschach-like organic symmetric patterns.
+        p.x = abs(p.x);
+
+        float period   = 9.0;
+        float progress = fract(u_t / period);
+        float zoom1    = pow(4.0, progress);
+        float zoom2    = pow(4.0, progress + 1.0);
+        vec2 p1 = p * (3.2 / max(u_zoom * zoom1, 0.001));
+        vec2 p2 = p * (3.2 / max(u_zoom * zoom2, 0.001));
+        float esc1    = julia(p1);
+        float esc2    = julia(p2);
+        float escaped = mix(esc2, esc1, progress);
+        float bands   = pow(escaped, 0.42);
+        float core    = smoothstep(0.0, 0.015, escaped);
+
+        // Slow arousal pulse
+        float pulse = 1.0 + u_depth * sin(2.0 * PI * u_pulseHz * u_t);
+
+        // Vignette breathing
+        float vigEdge  = 0.90 + 0.05 * sin(u_vigbreathe * 2.0 * PI);
+        float vignette = smoothstep(vigEdge, 0.22, distance(uv, vec2(0.5)));
+
+        // ── ROSE-AMBER PALETTE ─────────────────────────────────────────────
+        // orange-amber → rose → deep rose → rose-purple → amber → repeat
+        // All warm tones — no cold blues or greens
+        float colorCycle = escaped * 4.2 - u_t * 0.010;
+        vec3 warmColor;
+        warmColor.r = 0.78 + 0.22 * cos(2.0 * PI * colorCycle);
+        warmColor.g = 0.35 + 0.28 * cos(2.0 * PI * (colorCycle + 0.18));
+        warmColor.b = 0.25 + 0.25 * cos(2.0 * PI * (colorCycle + 0.48));
+
+        // Subtle chromatic depth during peak (u_chroma builds 0→0.48)
+        float xFrac = uv.x - 0.5;
+        vec3 neonBase = warmColor * (0.12 + 1.90 * bands) * pulse * vignette * core;
+        vec3 neon = neonBase;
+        neon.r = neonBase.r * (1.0 + u_chroma * xFrac * 0.8);
+        neon.b = neonBase.b * (1.0 - u_chroma * xFrac * 0.8);
+
+        // ── ROSE-GOLD EDGE GLOW ─────────────────────────────────────────────
+        float edgeBand = smoothstep(0.0, 0.08, escaped) * (1.0 - smoothstep(0.08, 0.22, escaped));
+        neon += vec3(1.0, 0.35, 0.45) * edgeBand * 0.52 * max(u_chroma, 0.15);
+
+        // Deep rose warm dark floor
+        vec3 darkFloor = vec3(0.006, 0.001, 0.003) * (1.0 - vignette * 0.35);
+        gl_FragColor = vec4(neon + darkFloor, 1.0);
+      }
+    `;
+
+    function initWebGL() {
+      try {
+        const canvas = document.getElementById('fractal-canvas');
+        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) throw new Error('WebGL unavailable');
+
+        const vs = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vs, LIB_VERT); gl.compileShader(vs);
+        const fs = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fs, LIB_FRAG); gl.compileShader(fs);
+        if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS))
+          throw new Error(gl.getShaderInfoLog(fs));
+
+        glProg = gl.createProgram();
+        gl.attachShader(glProg, vs); gl.attachShader(glProg, fs);
+        gl.linkProgram(glProg);
+        if (!gl.getProgramParameter(glProg, gl.LINK_STATUS))
+          throw new Error(gl.getProgramInfoLog(glProg));
+        gl.useProgram(glProg);
+
+        glUniforms = {
+          res:        gl.getUniformLocation(glProg, 'u_res'),
+          c:          gl.getUniformLocation(glProg, 'u_c'),
+          zoom:       gl.getUniformLocation(glProg, 'u_zoom'),
+          t:          gl.getUniformLocation(glProg, 'u_t'),
+          pulseHz:    gl.getUniformLocation(glProg, 'u_pulseHz'),
+          depth:      gl.getUniformLocation(glProg, 'u_depth'),
+          vigbreathe: gl.getUniformLocation(glProg, 'u_vigbreathe'),
+          chroma:     gl.getUniformLocation(glProg, 'u_chroma'),
+        };
+
+        glVertBuf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, glVertBuf);
+        gl.bufferData(gl.ARRAY_BUFFER,
+          new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+        const pos = gl.getAttribLocation(glProg, 'a_pos');
+        gl.enableVertexAttribArray(pos);
+        gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+        return true;
+      } catch(e) {
+        console.warn('[Donaurantium Libido] WebGL init failed:', e.message);
+        gl = null; glProg = null;
+        return false;
+      }
+    }
+
+    function resizeLibCanvas() {
+      const c = document.getElementById('fractal-canvas');
+      if (!c) return;
+      if (c.width !== c.clientWidth || c.height !== c.clientHeight) {
+        c.width = c.clientWidth; c.height = c.clientHeight;
+        if (gl) gl.viewport(0, 0, c.width, c.height);
+      }
+    }
+
+    function drawFrame(elapsed, phase) {
+      if (!gl || !glProg) return;
+      resizeLibCanvas();
+      const canvas = document.getElementById('fractal-canvas');
+
+      const flickerT = (audioCtx && state.audioStartTime !== null)
+                       ? (audioCtx.currentTime - state.audioStartTime)
+                       : elapsed;
+
+      // indicaDrift — Lissajous c-wander (two slightly different freqs)
+      let driftC = [phase.c[0], phase.c[1]];
+      if (phase.indicaDrift) {
+        const driftT = flickerT * 0.007;
+        driftC[0] = phase.c[0] + 0.07 * Math.cos(driftT);
+        driftC[1] = phase.c[1] + 0.07 * Math.sin(driftT * 1.11);
+      }
+
+      // Zoom breathes on slow arc
+      const rawZoom = 1.0 + 0.12 * Math.sin(flickerT * 0.004);
+
+      // Chroma builds during desire-build and peak
+      let chroma = 0;
+      if (phase.chromaMax) {
+        const pp = clamp((elapsed - phase.s) / (phase.e - phase.s), 0, 1);
+        chroma = phase.chromaMax * easeInOutCubic(pp);
+      }
+
+      const vigbreathe = (flickerT * 0.025) % 1.0;
+
+      gl.useProgram(glProg);
+      gl.uniform2f(glUniforms.res,        canvas.width, canvas.height);
+      gl.uniform2f(glUniforms.c,          driftC[0], driftC[1]);
+      gl.uniform1f(glUniforms.zoom,       rawZoom);
+      gl.uniform1f(glUniforms.t,          flickerT);
+      gl.uniform1f(glUniforms.pulseHz,    phase.pulseHz || 0.08);
+      gl.uniform1f(glUniforms.depth,      0.24);
+      gl.uniform1f(glUniforms.vigbreathe, vigbreathe);
+      gl.uniform1f(glUniforms.chroma,     chroma);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+
+    // ========================================================================
+    // SECTION 3: STATE
+    // ========================================================================
+
+    let sessionDuration = SESSION.DURATION_FULL;
+    let audioCtx   = null;
+    let masterGain = null;
+    let audioGraph = { binaural: [], physical: [], noiseGain: null };
+    let state = {
+      sessionStartMs:    null,
+      pausedAtMs:        null,
+      totalPausedMs:     0,
+      currentPhaseIndex: -1,
+      intensityMultiplier: 1.0,
+      raf:               null,
+      audioStartTime:    null,
+    };
+
+    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+
+    // ========================================================================
+    // SECTION 4: AUDIO GRAPH
+    // ========================================================================
+
+    function buildBinauralLayer(ctx, key, cfg, master) {
+      const gainL  = ctx.createGain(); gainL.gain.value  = 0;
+      const gainR  = ctx.createGain(); gainR.gain.value  = 0;
+      const merger = ctx.createChannelMerger(2);
+      const oscL   = ctx.createOscillator(); oscL.type = 'sine';
+      const oscR   = ctx.createOscillator(); oscR.type = 'sine';
+      oscL.frequency.value = cfg.L;
+      oscR.frequency.value = cfg.R;
+      oscL.connect(gainL); oscL.start();
+      oscR.connect(gainR); oscR.start();
+      gainL.connect(merger, 0, 0);
+      gainR.connect(merger, 0, 1);
+      merger.connect(master);
+      return { key, cfg, gainL, gainR, oscL, oscR };
+    }
+
+    function buildPhysicalLayer(ctx, cfg, master) {
+      const osc  = ctx.createOscillator(); osc.type = 'sine';
+      const gain = ctx.createGain();       gain.gain.value = 0;
+      osc.frequency.value = cfg.hz;
+      osc.connect(gain); osc.start();
+      gain.connect(master);
+      return { cfg, osc, gain };
+    }
+
+    function buildPinkNoise(ctx, master) {
+      const bufSize = ctx.sampleRate * 2;
+      const buf     = ctx.createBuffer(2, bufSize, ctx.sampleRate);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+        for (let i = 0; i < bufSize; i++) {
+          const w = Math.random() * 2 - 1;
+          b0 = 0.99886*b0 + w*0.0555179; b1 = 0.99332*b1 + w*0.0750759;
+          b2 = 0.96900*b2 + w*0.1538520; b3 = 0.86650*b3 + w*0.3104856;
+          b4 = 0.55000*b4 + w*0.5329522; b5 = -0.7616*b5 - w*0.0168980;
+          d[i] = (b0+b1+b2+b3+b4+b5+b6 + w*0.5362) / 7; b6 = w*0.115926;
+        }
+      }
+      const src  = ctx.createBufferSource();
+      src.buffer = buf; src.loop = true;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.032 * FREQ.PINK_NOISE.amp;
+      src.connect(gain); src.start();
+      gain.connect(master);
+      return { src, gain };
+    }
+
+    // ========================================================================
+    // SECTION 5: GAIN SCHEDULING
+    // ========================================================================
+
+    function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    }
+
+    function rampParam(param, target, when, duration) {
+      param.cancelScheduledValues(when);
+      param.setValueAtTime(param.value, when);
+      param.linearRampToValueAtTime(target, when + Math.max(duration, 0.01));
+    }
+
+    function gradientFactor(key, phase) {
+      if (!phase.gradientRampSecs || phase.gradientRampSecs <= 0) return 1.0;
+      if (/OXYTOCIN/.test(key)) return 1.0;  // anchor layer always full
+      const into = elapsedSeconds() - phase.s;
+      if (into >= phase.gradientRampSecs) return 1.0;
+      return easeInOutCubic(into / phase.gradientRampSecs);
+    }
+
+    function binauralGainFor(key, phase) {
+      const mult  = state.intensityMultiplier;
+      const gFact = gradientFactor(key, phase);
+      let base;
+      if      (/OXYTOCIN/.test(key)) base = 0.68;  // deep theta anchor
+      else if (/DESIRE/.test(key))   base = 0.72;  // desire theta — present
+      else if (/BETA/.test(key))     base = 0.80;  // beta needs to register
+      else if (/GAMMA/.test(key))    base = 0.60;  // gamma — light touch
+      else                           base = 0.70;
+      return base * mult * gFact;
+    }
+
+    function physicalGainFor(cfg, phase) {
+      const mult = state.intensityMultiplier;
+      return 0.15 * cfg.amp * mult;
+    }
+
+    function applyPhase(phase, when, elapsed) {
+      if (!audioCtx || !audioGraph) return;
+
+      // Binaural layers
+      for (const layer of audioGraph.binaural) {
+        const cfg     = layer.cfg;
+        const active  = phase.activeBeats && phase.activeBeats.includes(cfg.beat);
+        const target  = active ? binauralGainFor(layer.key, phase) : 0;
+        const rampDur = active ? 2.5 : 1.5;
+        rampParam(layer.gainL, target, when, rampDur);
+        rampParam(layer.gainR, target, when, rampDur);
+      }
+
+      // Physical layers
+      for (const layer of audioGraph.physical) {
+        const active = phase.physical && phase.physical.includes(layer.cfg.hz);
+        const target = active ? physicalGainFor(layer.cfg, phase) : 0;
+        rampParam(layer.gain, target, when, active ? 3.5 : 2.0);
+      }
+    }
+
+    function elapsedSeconds() {
+      if (!state.sessionStartMs) return 0;
+      const raw = (Date.now() - state.sessionStartMs - state.totalPausedMs) / 1000;
+      return clamp(raw, 0, sessionDuration);
+    }
+
+    function activePhaseAt(elapsed) {
+      const phases = sessionDuration === SESSION.DURATION_FULL ? PHASES_60 : PHASES_30;
+      let   idx    = phases.length - 1;
+      for (let i = 0; i < phases.length; i++) {
+        if (elapsed >= phases[i].s && elapsed < phases[i].e) { idx = i; break; }
+      }
+      return { phase: phases[idx], index: idx, phases };
+    }
+
+    // ========================================================================
+    // SECTION 6: SESSION CONTROL
+    // ========================================================================
+
+    async function startSession() {
+      audioCtx  = new AudioContextCtor({ sampleRate: 44100 });
+      masterGain = audioCtx.createGain(); masterGain.gain.value = 0;
+      masterGain.connect(audioCtx.destination);
+
+      // Build binaural layers
+      for (const [key, cfg] of Object.entries(FREQ)) {
+        if (cfg.L && cfg.R) {
+          audioGraph.binaural.push(buildBinauralLayer(audioCtx, key, cfg, masterGain));
+        }
+      }
+
+      // Build physical layers
+      for (const [key, cfg] of Object.entries(FREQ)) {
+        if (cfg.hz !== undefined && !cfg.L) {
+          audioGraph.physical.push(buildPhysicalLayer(audioCtx, cfg, masterGain));
+        }
+      }
+
+      // Pink noise
+      if (FREQ.PINK_NOISE) buildPinkNoise(audioCtx, masterGain);
+
+      masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(1.0, audioCtx.currentTime + FADE_IN_SECS);
+
+      state.sessionStartMs    = Date.now();
+      state.totalPausedMs     = 0;
+      state.currentPhaseIndex = -1;
+      state.audioStartTime    = audioCtx.currentTime;
+
+      document.getElementById('screen-landing').style.display = 'none';
+      document.getElementById('screen-session').style.display = 'block';
+
+      // Init fractal — always on
+      initWebGL();
+      const canvas = document.getElementById('fractal-canvas');
+      if (canvas) canvas.classList.add('visible');
+
+      // Breath pacer
+      const bp = document.getElementById('breath-pacer');
+      if (bp) bp.classList.add('visible');
+
+      state.raf = requestAnimationFrame(mainLoop);
+    }
+
+    function scheduleFadeOut(elapsed) {
+      if (!audioCtx || !masterGain) return;
+      const remaining = sessionDuration - elapsed;
+      if (remaining <= FADE_OUT_SECS && masterGain.gain.value > 0.02) {
+        rampParam(masterGain.gain, 0, audioCtx.currentTime, remaining);
+      }
+    }
+
+    function endSession() {
+      if (state.raf) cancelAnimationFrame(state.raf);
+      const elapsed = elapsedSeconds();
+      document.getElementById('screen-session').style.display = 'none';
+      document.getElementById('screen-end').style.display = 'grid';
+      document.getElementById('end-summary').textContent =
+        `${Math.round(elapsed / 60)} min · desire + sensory amplification + body presence · ` +
+        `6 Hz oxytocin + 7 Hz NAc theta + 18 Hz NE beta + 40 Hz gamma`;
+      if (audioCtx) { audioCtx.close(); audioCtx = null; }
+      if (gl) { gl = null; }
+    }
+
+    function pauseSession() {
+      if (!state.sessionStartMs || state.pausedAtMs) return;
+      state.pausedAtMs = Date.now();
+      if (audioCtx) masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+      document.getElementById('pause-overlay').classList.add('visible');
+    }
+
+    function resumeSession() {
+      if (!state.pausedAtMs) return;
+      state.totalPausedMs += Date.now() - state.pausedAtMs;
+      state.pausedAtMs = null;
+      if (audioCtx) {
+        masterGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
+        const elapsed = elapsedSeconds();
+        const { phase } = activePhaseAt(elapsed);
+        applyPhase(phase, audioCtx.currentTime, elapsed);
+      }
+      document.getElementById('pause-overlay').classList.remove('visible');
+    }
+
+    // ========================================================================
+    // SECTION 7: MAIN LOOP + HUD
+    // ========================================================================
+
+    function formatTime(secs) {
+      const s = Math.max(0, Math.floor(secs));
+      return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    }
+
+    function updateHud(elapsed, phase) {
+      document.documentElement.style.setProperty('--phase-color', phase.color);
+      document.getElementById('phase-label').textContent = phase.label;
+      document.getElementById('time-left').textContent = formatTime(sessionDuration - elapsed);
+      document.getElementById('progress-fill').style.transform =
+        `scaleX(${clamp(elapsed / sessionDuration, 0, 1)})`;
+
+      const bc = document.getElementById('breath-cue');
+      if (bc) {
+        const layerCount = phase.activeBeats ? phase.activeBeats.length : 1;
+        const names = {
+          'body-arrival': '6 Hz body · 5.5/min',
+          'desire-build': `${layerCount} layers · 5.5/min`,
+          'peak':         `${layerCount} layers · 5.5/min`,
+          'return':       '6 Hz return · 5.5/min',
+        };
+        bc.textContent = names[phase.name] || '5.5/min';
+        bc.style.opacity = '1';
+      }
+
+      // Breath pacer label
+      const bt = document.getElementById('breath-text');
+      if (bt) bt.textContent = (elapsed % 11) < 5.0 ? 'inhale' : 'exhale';
+    }
+
+    function mainLoop() {
+      state.raf = requestAnimationFrame(mainLoop);
+      if (!state.sessionStartMs || state.pausedAtMs) return;
+
+      const elapsed = elapsedSeconds();
+      if (elapsed >= sessionDuration) { endSession(); return; }
+
+      const { phase, index } = activePhaseAt(elapsed);
+      updateHud(elapsed, phase);
+      drawFrame(elapsed, phase);
+      scheduleFadeOut(elapsed);
+
+      if (index !== state.currentPhaseIndex) {
+        state.currentPhaseIndex = index;
+        if (audioCtx) applyPhase(phase, audioCtx.currentTime, elapsed);
+      }
+
+      // Gradient updates during ramp window
+      if (audioCtx && phase.gradientRampSecs > 0) {
+        const intoPhase = elapsed - phase.s;
+        if (intoPhase < phase.gradientRampSecs) {
+          applyPhase(phase, audioCtx.currentTime, elapsed);
+        }
+      }
+    }
+
+    // ========================================================================
+    // SECTION 8: UI EVENTS
+    // ========================================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Duration toggle
+      document.querySelectorAll('.dur-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          sessionDuration = btn.dataset.dur === 'half'
+            ? SESSION.DURATION_HALF
+            : SESSION.DURATION_FULL;
+        });
+      });
+
+      // Intensity slider
+      const slider = document.getElementById('intensity-slider');
+      const valEl  = document.getElementById('intensity-val');
+      slider?.addEventListener('input', () => {
+        state.intensityMultiplier = slider.valueAsNumber / 100;
+        valEl.textContent = (slider.valueAsNumber / 100).toFixed(1) + '×';
+      });
+
+      // Start
+      document.getElementById('btn-start')?.addEventListener('click', async () => {
+        if (!AudioContextCtor) { alert('Web Audio not supported.'); return; }
+        await startSession();
+      });
+
+      // Pause / Resume
+      document.getElementById('btn-pause')?.addEventListener('click', pauseSession);
+      document.getElementById('btn-resume')?.addEventListener('click', resumeSession);
+
+      // End screen
+      document.getElementById('btn-restart')?.addEventListener('click', () => location.reload());
+      document.getElementById('btn-close')?.addEventListener('click', () => window.close());
+
+      // Spacebar pause
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && state.sessionStartMs) {
+          e.preventDefault();
+          state.pausedAtMs ? resumeSession() : pauseSession();
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>
